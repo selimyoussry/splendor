@@ -9,6 +9,7 @@ class Game(db.Model):
     __tablename__ = 'game'
     id = db.Column(db.Integer, primary_key=True)
     isOn = db.Column(db.Boolean())
+    dt = db.Column(db.DateTime, default=db.func.now())
 
     players = db.relationship('GamePlayer', backref='game', lazy='dynamic')
 
@@ -20,11 +21,12 @@ class Player(db.Model):
     __tablename__ = 'player'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    email = db.Column(db.String(255), unique=True)
 
     game = db.relationship('GamePlayer', backref='player', lazy='dynamic')
 
     def __repr__(self):
-        return '<Player {} {} >'.format(self.id, self.name)
+        return '<Player {} {} {}>'.format(self.id, self.name, self.email)
 
 
 class Card(db.Model):
@@ -38,6 +40,8 @@ class Card(db.Model):
     nwhite = db.Column(db.Integer)
     nred = db.Column(db.Integer)
     nblack = db.Column(db.Integer)
+
+    game_player_card = db.relationship('GamePlayerCard', backref='card', lazy='dynamic')
 
     def __repr__(self):
         return '<{} Card - Yields {} points>'.format(self.color, self.value)
@@ -76,4 +80,4 @@ class GamePlayerCard(db.Model):
     id_card = db.Column(db.Integer, db.ForeignKey('card.id'))
 
     def __repr__(self):
-        return '<GamePlayer {} - Player {}>'.format(self.game, self.gameplayer.player.name)
+        return '<GamePlayer {} - Card {}>'.format(self.gameplayer, self.card)

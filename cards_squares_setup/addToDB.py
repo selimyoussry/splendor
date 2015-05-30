@@ -2,11 +2,14 @@ __author__ = 'selim'
 
 from app.models import Card, Square, colors
 from app import db
+import os
+
+dirpath = os.path.dirname(os.path.abspath(__file__))
 
 
 def add_cards(rank):
 
-    f = open('cards_rank{}.txt'.format(rank), 'r')
+    f = open('{}/cards_rank{}.txt'.format(dirpath, rank), 'r')
 
     for line in f:
         card_info = get_card_info(line)
@@ -25,7 +28,7 @@ def add_cards(rank):
 
 def add_squares():
 
-    f = open('squares.txt', 'r')
+    f = open('{}/squares.txt'.format(dirpath), 'r')
 
     for line in f:
         square_info = get_square_info(line)
@@ -76,7 +79,7 @@ def get_square_info(line):
     return square_info
 
 
-if __name__ == '__main__':
+def setup_cards_squares():
     for rank in [1, 2, 3]:
         add_cards(rank=rank)
     add_squares()
