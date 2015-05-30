@@ -1,0 +1,30 @@
+black, 5 green, 3 red, 2 points
+white, 5 red, 3 black, 2 points
+red, 2 white, 2 red, 3 black, 1 points
+white, 1 green, 4 red, 2 black, 2 points
+red, 1 white, 4 blue, 2 green, 2 points
+black, 6 black, 3 points
+green, 2 white, 3 blue, 2 black, 1 points
+black, 5 white, 2 points
+green, 5 green, 2 points
+green, 4 white, 2 blue, 1 black, 2 points
+green, 3 white, 2 green, 3 red, 1 points
+green, 5 blue, 3 green, 2 points
+black, 1 blue, 4 green, 2 red, 2 points
+white, 6 white, 3 points
+white, 5 red, 2 points
+blue, 5 blue, 2 points
+red, 3 blue, 2 red, 3 black, 1 points
+blue, 2 blue, 3 green, 3 black, 1 points
+blue, 6 blue, 3 points
+blue, 2 white, 1 red, 4 black, 2 points
+red, 3 white, 5 black, 2 points
+white, 3 green, 2 red, 2 black, 1 points
+blue, 5 white, 3 blue, 2 points
+green, 6 green, 3 points
+red, 5 black, 2 points
+black, 3 white, 3 green, 2 black, 1 points
+blue, 2 blue, 2 green, 3 red, 1 points
+black, 3 white, 2 blue, 2 green, 1 points
+white, 2 white, 3 blue, 3 red, 1 points
+red, 6 red, 3 points

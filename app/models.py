@@ -2,7 +2,7 @@ __author__ = 'selim'
 
 from app import db
 
-colors = {0: 'Yellow', 1: 'Blue', 2: 'Green', 3: 'Black', 4: 'Red', 5: 'White'}
+colors = {'white', 'red', 'green', 'blue', 'black'}
 
 
 class Game(db.Model):
@@ -17,7 +17,7 @@ class Game(db.Model):
 
 
 class Player(db.Model):
-    __tablename__= 'player'
+    __tablename__ = 'player'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
 
@@ -29,9 +29,9 @@ class Player(db.Model):
 
 class Card(db.Model):
     __tablename__ = 'card'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     rank = db.Column(db.Integer)
-    color = db.Column(db.Integer)
+    color = db.Column(db.String(255))
     value = db.Column(db.Integer)
     nblue = db.Column(db.Integer)
     ngreen = db.Column(db.Integer)
@@ -40,7 +40,7 @@ class Card(db.Model):
     nblack = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<{} Card - Yields {} points>'.format(colors[self.color], self.value)
+        return '<{} Card - Yields {} points>'.format(self.color, self.value)
 
 
 class Square(db.Model):
@@ -63,5 +63,17 @@ class GamePlayer(db.Model):
     id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
     points = db.Column(db.Integer)
 
+    game_player_cards = db.relationship('GamePlayerCard', backref='gameplayer', lazy='dynamic')
+
     def __repr__(self):
-        return '<Worker %r - %r>' % (self.name, self.job)
+        return '<Game {} - Player {}>'.format(self.game, self.player.name)
+
+
+class GamePlayerCard(db.Model):
+    __tablename__ = 'game_player_card'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
+    id_card = db.Column(db.Integer, db.ForeignKey('card.id'))
+
+    def __repr__(self):
+        return '<GamePlayer {} - Player {}>'.format(self.game, self.gameplayer.player.name)

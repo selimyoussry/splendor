@@ -1,0 +1,10 @@
+4 black, 4 white
+4 blue, 4 white
+4 blue, 4 green
+3 black, 3 blue, 3 white
+4 red, 4 green
+3 blue, 3 red, 3 green
+4 black, 4 red
+3 green, 3 blue, 3 white
+3 black, 3 red, 3 white
+3 green, 3 blue, 3 red
