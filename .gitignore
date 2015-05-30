@@ -3,4 +3,5 @@
 flask/
 .idea/
 *.iml
-.
+db_repository/
+*.db

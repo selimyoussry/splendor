@@ -45,7 +45,7 @@ class Card(db.Model):
 
 class Square(db.Model):
     __tablename__ = 'square'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     nblue = db.Column(db.Integer)
     ngreen = db.Column(db.Integer)
     nwhite = db.Column(db.Integer)
@@ -58,6 +58,7 @@ class Square(db.Model):
 
 class GamePlayer(db.Model):
     __tablename__ = 'game_player'
+    id = db.Column(db.Integer, primary_key=True)
     id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
     id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
     points = db.Column(db.Integer)
