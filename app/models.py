@@ -12,6 +12,10 @@ class Game(db.Model):
     dt = db.Column(db.DateTime, default=db.func.now())
 
     players = db.relationship('GamePlayer', backref='game', lazy='dynamic')
+    table_cards = db.relationship('GameTableCard', backref='game', lazy='dynamic')
+    table_squares = db.relationship('GameTableSquare', backref='game', lazy='dynamic')
+    table_tokens = db.relationship('GameTableTokens', backref='game', lazy='dynamic')
+    deck_cards = db.relationship('GameDeckCard', backref='game', lazy='dynamic')
 
     def __repr__(self):
         return '<Game {}>'.format(self.id)
@@ -41,7 +45,9 @@ class Card(db.Model):
     nred = db.Column(db.Integer)
     nblack = db.Column(db.Integer)
 
-    game_player_card = db.relationship('GamePlayerCard', backref='card', lazy='dynamic')
+    game_player = db.relationship('GamePlayerCard', backref='card', lazy='dynamic')
+    table = db.relationship('GameTableCard', backref='card', lazy='dynamic')
+    deck = db.relationship('GameDeckCard', backref='card', lazy='dynamic')
 
     def __repr__(self):
         return '<{} Card - Yields {} points>'.format(self.color, self.value)
@@ -56,6 +62,9 @@ class Square(db.Model):
     nred = db.Column(db.Integer)
     nblack = db.Column(db.Integer)
 
+    game_player = db.relationship('GamePlayerSquare', backref='square', lazy='dynamic')
+    table = db.relationship('GameTableSquare', backref='card', lazy='dynamic')
+
     def __repr__(self):
         return '<Square - Requires {} blue, {} green, {} white, {} red, {} black>'.format(self.nblue, self.ngreen, self.nwhite, self.nred, self.nblack)
 
@@ -67,7 +76,10 @@ class GamePlayer(db.Model):
     id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
     points = db.Column(db.Integer)
 
-    game_player_cards = db.relationship('GamePlayerCard', backref='gameplayer', lazy='dynamic')
+    cards = db.relationship('GamePlayerCard', backref='gameplayer', lazy='dynamic')
+    squares = db.relationship('GamePlayerSquare', backref='gameplayer', lazy='dynamic')
+    tokens = db.relationship('GamePlayerTokens', backref='gameplayer', lazy='dynamic')
+    turns = db.relationship('GamePlayerTurn', backref='gameplayer', lazy='dynamic')
 
     def __repr__(self):
         return '<Game {} - Player {}>'.format(self.game, self.player.name)
@@ -81,3 +93,82 @@ class GamePlayerCard(db.Model):
 
     def __repr__(self):
         return '<GamePlayer {} - Card {}>'.format(self.gameplayer, self.card)
+
+
+class GamePlayerSquare(db.Model):
+    __tablename__ = 'game_player_square'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
+    id_square = db.Column(db.Integer, db.ForeignKey('square.id'))
+
+    def __repr__(self):
+        return '<GamePlayer {} - Square {}>'.format(self.gameplayer, self.square)
+
+
+class GamePlayerTokens(db.Model):
+    __tablename__ = 'game_player_tokens'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
+    nblue = db.Column(db.Integer)
+    ngreen = db.Column(db.Integer)
+    nred = db.Column(db.Integer)
+    nblack = db.Column(db.Integer)
+    nwhite = db.Column(db.Integer)
+    nyellow = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<GamePlayer {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.gameplayer, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)
+
+
+class GameTableCard(db.Model):
+    __tablename__ = 'game_table_card'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
+    id_card = db.Column(db.Integer, db.ForeignKey('card.id'))
+
+    def __repr__(self):
+        return '<Game {} - Card {}>'.format(self.game, self.card)
+
+
+class GameTableSquare(db.Model):
+    __tablename__ = 'game_table_square'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
+    id_square = db.Column(db.Integer, db.ForeignKey('square.id'))
+
+    def __repr__(self):
+        return '<Game {} - Square {}>'.format(self.game, self.square)
+
+
+class GameTableTokens(db.Model):
+    __tablename__ = 'game_table_tokens'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
+    nblue = db.Column(db.Integer)
+    ngreen = db.Column(db.Integer)
+    nred = db.Column(db.Integer)
+    nblack = db.Column(db.Integer)
+    nwhite = db.Column(db.Integer)
+    nyellow = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Game {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.game, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)
+
+
+class GameDeckCard(db.Model):
+    __tablename__ = 'game_deck_card'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
+    id_card = db.Column(db.Integer, db.ForeignKey('card.id'))
+
+    def __repr__(self):
+        return '<Game {} - Card {}>'.format(self.game, self.card)
+
+
+class GamePlayerTurn(db.Model):
+    __tablename__ = 'game_turn'
+    id = db.Column(db.Integer, primary_key=True)
+    id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
+
+    def __repr__(self):
+        return '<GamePlayer {}>'.format(self.gameplayer)
