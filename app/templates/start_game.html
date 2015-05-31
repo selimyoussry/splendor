@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Start new game</h1>
+<form action="" method="post" name="startgame">
+    {{ form.hidden_tag() }}
+
+    Player 1: {{ form.player1(size=80) }}<br />
+    Player 2: {{ form.player2(size=80) }}<br />
+    Player 3: {{ form.player3(size=80) }}<br />
+    Player 4: {{ form.player4(size=80) }}<br />
+    Player 5: {{ form.player5(size=80) }}<br />
+    <p><input type="submit" value="Start a new game!"></p>
+</form>
+{% endblock %}
