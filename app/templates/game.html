@@ -8,16 +8,42 @@
 
 
 <h1>Available squares</h1>
+<ul>
 {% for square in game.table_squares %}
     <li>{{ square }}</li>
 {% endfor %}
+</ul>
 
 <h1>Tokens</h1>
 {{ game.table_tokens[0] }}
 
 <h1>Players</h1>
-{% for player in game.players %}
-    <li>{{ player }}</li>
+<ul>
+{% for player in game.get_players() %}
+    <li>{{ player }} </li>
+    Cards: <br />
+    <ul>
+        {% for card in player.get_cards() %}
+        <li>
+            Card {{ card }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br />
+    Tokens: {{  player.get_tokens() }}
+    <br />
+    Squares
+    <ul>
+        {% for square in player.get_squares() %}
+        <li>
+            Square {{ square }}
+        </li>
+        {% endfor %}
+    </ul>
 {% endfor %}
+</ul>
+
+<h1>Actions</h1>
+
 
 {% endblock %}

@@ -17,6 +17,9 @@ class Game(db.Model):
     table_tokens = db.relationship('GameTableTokens', backref='game', lazy='dynamic')
     deck_cards = db.relationship('GameDeckCard', backref='game', lazy='dynamic')
 
+    def get_players(self):
+        return self.players
+
     def __repr__(self):
         return '<Game {}>'.format(self.id)
 
@@ -27,7 +30,7 @@ class Player(db.Model):
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
 
-    game = db.relationship('GamePlayer', backref='player', lazy='dynamic')
+    game_player = db.relationship('GamePlayer', backref='player', lazy='dynamic')
 
     def __repr__(self):
         return '<Player {} {} {}>'.format(self.id, self.name, self.email)
@@ -96,6 +99,16 @@ class GamePlayer(db.Model):
     squares = db.relationship('GamePlayerSquare', backref='gameplayer', lazy='dynamic')
     tokens = db.relationship('GamePlayerTokens', backref='gameplayer', lazy='dynamic')
     turns = db.relationship('GamePlayerTurn', backref='gameplayer', lazy='dynamic')
+
+    def get_cards(self):
+        return self.cards
+
+    def get_squares(self):
+        return self.squares
+
+
+    def get_tokens(self):
+        return self.tokens[0]
 
     def __repr__(self):
         return '<Game {} - Player {}>'.format(self.game, self.player.name)

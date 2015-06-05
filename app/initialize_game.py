@@ -23,8 +23,6 @@ class GameSetUp:
             self.game = game
         self.db = db
 
-        self.players = listify(self.game.players)
-
     def initialize_game(self):
         if self.game.isOn:
             print 'Game already on'
@@ -35,6 +33,7 @@ class GameSetUp:
         self.initialize_cards_table()
         self.initialize_squares_table()
         self.initialize_tokens_table()
+        self.initialize_tokens_players()
 
         self.game.isOn = True
         self.db.session.commit()
@@ -103,3 +102,17 @@ class GameSetUp:
         self.db.session.add(table_tokens)
         self.db.session.commit()
         print 'Tokens displayed on the table'
+
+    def initialize_tokens_players(self):
+        for id_game_player in [p.id for p in self.players]:
+            game_player_tokens_tmp = models.GamePlayerTokens(
+                id_game_player = id_game_player,
+                nblue = 0,
+                ngreen = 0,
+                nred = 0,
+                nblack = 0,
+                nwhite = 0,
+                nyellow = 0)
+            self.db.session.add(game_player_tokens_tmp)
+            self.db.session.commit()
+        print '0 Token for each player'
