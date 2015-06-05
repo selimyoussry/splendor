@@ -3,32 +3,78 @@ from app import app
 from forms import *
 import models
 from app import db
+from initialize_game import GameSetUp
+from flask import render_template, flash, redirect, session, url_for, request, g
+from flask.ext.login import login_user, logout_user, current_user, login_required
+from app import app, db, lm, oid
+from .forms import LoginForm
+
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
+    user = g.user
+
+    games = models.Game.query.filter(models.Game.isOn==True).all()
+
+    gamesSetUp = [GameSetUp(game=game, db=db) for game in games]
+
     return render_template('index.html',
-                           title='Home')
+                           title='Home',
+                           user=user,
+                           games=gamesSetUp)
 
 
-@app.route('/sign_up', methods=['GET', 'POST'])
-def sign_up():
-    form = SignUpForm()
+@app.route('/login', methods=['GET', 'POST'])
+@oid.loginhandler
+def login():
+    if g.user is not None and g.user.is_authenticated():
+        return redirect(url_for('index'))
+    form = LoginForm()
     if form.validate_on_submit():
-        flash('Signup requested for Name="{}", Email={}'.format(form.name.data, form.email.data))
+        session['remember_me'] = form.remember_me.data
+        return oid.try_login(form.openid.data, ask_for=['nickname', 'email'])
+    return render_template('login.html',
+                           title='Sign In',
+                           form=form,
+                           providers=app.config['OPENID_PROVIDERS'])
 
-        # Add the new player to the database
-        new_player = models.Player(name=form.name.data, email=form.email.data)
-        db.session.add(new_player)
+@lm.user_loader
+def load_user(id):
+    return models.Player.query.get(int(id))
+
+@oid.after_login
+def after_login(resp):
+    if resp.email is None or resp.email == "":
+        flash('Invalid login. Please try again.')
+        return redirect(url_for('login'))
+    user = models.Player.query.filter_by(email=resp.email).first()
+    if user is None:
+        name = resp.nickname
+        if name is None or name == "":
+            name = resp.email.split('@')[0]
+        user = models.Player(name=name, email=resp.email)
+        db.session.add(user)
         db.session.commit()
+    remember_me = False
+    if 'remember_me' in session:
+        remember_me = session['remember_me']
+        session.pop('remember_me', None)
+    login_user(user, remember = remember_me)
+    return redirect(request.args.get('next') or url_for('index'))
 
-        return redirect('/index')
-    return render_template('sign_up.html',
-                           title='Sign Up',
-                           form=form)
+@app.before_request
+def before_request():
+    g.user = current_user
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/start_game', methods=['GET', 'POST'])
+@login_required
 def start_game():
     form = StartGameForm()
 
@@ -39,20 +85,27 @@ def start_game():
         flash('Start a game requested for players {}'.format(' - '.join(players_email)))
 
         # Instanciate a new game
-        new_game = models.Game(isOn=True)
+        new_game = models.Game(isOn=False)
         db.session.add(new_game)
-        #db.session.commit()
+        db.session.commit()
 
         # Match players to game
         players = list()
         for player_email in players_email:
             players.extend(models.Player.query.filter(models.Player.email==player_email).all())
-            ################## FINISH HERE
+        players = set(players)
 
-        print players
+        flash('Only players {} exist'.format(' - '.join([p.email for p in players])))
 
-        new_game_id = 10
+        for player in players:
+            player_game = models.GamePlayer(id_game=new_game.id, id_player=player.id, points=0)
+            db.session.add(player_game)
+            db.session.commit()
+            print 'Adding {}'.format(player_game)
+
+        new_game_id = new_game.id
         return redirect('/game/{}'.format(new_game_id))
+
     return render_template('start_game.html',
                            title='Start a new game',
                            form=form)
@@ -60,10 +113,19 @@ def start_game():
 
 @app.route('/game', methods=['GET', 'POST'])
 @app.route('/game/<game_id>', methods=['GET', 'POST'])
-def game(game_id=0):
+@login_required
+def game(game_id):
 
-    print 'Game', game_id
+    gameSetUp = GameSetUp(
+        game_id=game_id,
+        db=db
+    )
+
+    if not gameSetUp.game.isOn:
+        gameSetUp.initialize_game()
+
+    print 'user', g.user
 
     return render_template('game.html',
                            title='Game {}'.format(game_id),
-                           game_id=game_id)
+                           game=gameSetUp.game)

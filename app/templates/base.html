@@ -7,7 +7,16 @@
     {% endif %}
 </head>
 <body>
-<div>Splendor: <a href="/index">Home</a></div>
+
+<div>XX:
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if g.user.is_authenticated() %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <h2>Logged in as {{ g.user.email }}</h2>
+    {% endif %}
+</div>
+
+
 <hr>
 {% with messages = get_flashed_messages() %}
 {% if messages %}

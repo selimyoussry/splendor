@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h1>Yo:</h1>
+<a href="/start_game">Start a new game</a>
+
+<h1>Ongoing games:</h1>
+{% for game in games %}
 <ul>
-    <li><a href="/sign_up">Sign up</a></li>
-    <li><a href="/start_game">Start a new game</a></li>
+    <li><a href="/game/{{game.game.id}}">Join Game {{game.game.id}} with {{game.players}}</a></li>
 </ul>
+{% endfor %}
+
+
 {% endblock %}

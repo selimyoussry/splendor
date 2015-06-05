@@ -2,10 +2,22 @@
 {% block content %}
 
 <h1>Cards on the table</h1>
+{% for card in game.table_cards %}
+    <li>{{ card }}</li>
+{% endfor %}
+
 
 <h1>Available squares</h1>
+{% for square in game.table_squares %}
+    <li>{{ square }}</li>
+{% endfor %}
+
+<h1>Tokens</h1>
+{{ game.table_tokens[0] }}
 
 <h1>Players</h1>
-
+{% for player in game.players %}
+    <li>{{ player }}</li>
+{% endfor %}
 
 {% endblock %}

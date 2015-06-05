@@ -32,6 +32,21 @@ class Player(db.Model):
     def __repr__(self):
         return '<Player {} {} {}>'.format(self.id, self.name, self.email)
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        try:
+            return unicode(self.id)  # python 2
+        except NameError:
+            return str(self.id)  # python 3
+
 
 class Card(db.Model):
     __tablename__ = 'card'
@@ -63,7 +78,7 @@ class Square(db.Model):
     nblack = db.Column(db.Integer)
 
     game_player = db.relationship('GamePlayerSquare', backref='square', lazy='dynamic')
-    table = db.relationship('GameTableSquare', backref='card', lazy='dynamic')
+    table = db.relationship('GameTableSquare', backref='square', lazy='dynamic')
 
     def __repr__(self):
         return '<Square - Requires {} blue, {} green, {} white, {} red, {} black>'.format(self.nblue, self.ngreen, self.nwhite, self.nred, self.nblack)
@@ -74,6 +89,7 @@ class GamePlayer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_game = db.Column(db.Integer, db.ForeignKey('game.id'))
     id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
+    game_order = db.Column(db.Integer)
     points = db.Column(db.Integer)
 
     cards = db.relationship('GamePlayerCard', backref='gameplayer', lazy='dynamic')

@@ -5,3 +5,4 @@ flask/
 *.iml
 db_repository/
 *.db
+/tmp
