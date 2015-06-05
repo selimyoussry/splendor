@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Start new game</h1>
+
+<h2>Available players emails</h2>
+{% for player in available_players %}
+<ul>
+    <li>{{player.name}}: {{player.email}}</li>
+</ul>
+{% endfor %}
+
+<h2>Pick emails from above to start a new game</h2>
 <form action="" method="post" name="startgame">
     {{ form.hidden_tag() }}
 

@@ -78,6 +78,8 @@ def logout():
 def start_game():
     form = StartGameForm()
 
+    available_players = [p for p in models.Player.query.all()]
+
     if form.validate_on_submit():
 
         players_email = [form.player1.data, form.player2.data, form.player3.data, form.player4.data, form.player5.data]
@@ -108,7 +110,8 @@ def start_game():
 
     return render_template('start_game.html',
                            title='Start a new game',
-                           form=form)
+                           form=form,
+                           available_players=available_players)
 
 
 @app.route('/game', methods=['GET', 'POST'])
