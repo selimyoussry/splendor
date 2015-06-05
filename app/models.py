@@ -106,6 +106,7 @@ class GamePlayerCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
     id_card = db.Column(db.Integer, db.ForeignKey('card.id'))
+    bought = db.Column(db.Boolean())
 
     def __repr__(self):
         return '<GamePlayer {} - Card {}>'.format(self.gameplayer, self.card)
