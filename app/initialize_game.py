@@ -18,6 +18,7 @@ class GameSetUp:
 
     def __init__(self, db, game_id=0, game=None):
         if game is None:
+            print 'gameid', game_id
             self.game = models.Game.query.get(game_id)
         else:
             self.game = game

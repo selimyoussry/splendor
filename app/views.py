@@ -132,3 +132,25 @@ def game(game_id):
     return render_template('game.html',
                            title='Game {}'.format(game_id),
                            game=gameSetUp.game)
+
+
+@app.route('/action/', methods=['GET', 'POST'])
+@login_required
+def action():
+
+    # Action 1
+    # Get one card from the deck
+
+    # Action 2
+    # Select 3 tokens
+
+    # Action 3
+    # Select 2 identical tokens
+
+    # Action 4
+    # Reserve a card
+
+
+    return render_template('game.html',
+                           title='Game {}'.format(game_id),
+                           game=gameSetUp.game)

@@ -3,7 +3,9 @@
 
 <h1>Cards on the table</h1>
 {% for card in game.table_cards %}
-    <li>{{ card }}</li>
+    <div class="card card-{{ card.card.color }}">
+        {{ card.card.value }}
+    </div>
 {% endfor %}
 
 
@@ -44,6 +46,5 @@
 </ul>
 
 <h1>Actions</h1>
-
 
 {% endblock %}
