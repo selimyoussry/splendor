@@ -42,7 +42,7 @@ class GameSetUp:
         print 'Game initialized!'
 
     def assign_player_order(self):
-        player_orders = random.sample(self.players, len(self.players))
+        player_orders = random.sample(self.game.get_players(), len(self.game.get_players()))
         for assigned_order in range(len(player_orders)):
             player_orders[assigned_order].game_order = assigned_order
         self.db.session.commit()
@@ -105,7 +105,7 @@ class GameSetUp:
         print 'Tokens displayed on the table'
 
     def initialize_tokens_players(self):
-        for id_game_player in [p.id for p in self.players]:
+        for id_game_player in [p.id for p in self.game.get_players()]:
             game_player_tokens_tmp = models.GamePlayerTokens(
                 id_game_player = id_game_player,
                 nblue = 0,
