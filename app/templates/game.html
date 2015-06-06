@@ -39,9 +39,21 @@
 {% endfor %}
 
     <h1>Available Tokens</h1>
-    {%for color in ['blue', 'red', 'green', 'white', 'black']%}
+    {%for color in ['blue', 'red', 'green', 'white', 'black', 'yellow']%}
         {% if game.get_table_tokens().get_info(color) != 0 %}
-            <div class="token card-{{ color }}">{{ game.get_table_tokens().get_info(color) }}</div>
+            <div class="token card-{{ color }}">
+                {% if color != 'yellow' %}
+                    <div class="n_picked" id="table-token-{{ color }}">0
+                    </div>
+                {% endif %}
+                <span class="token-value">
+                    {% if color != 'yellow' %}
+                        <a href="javascript:pick_token('{{color}}')" id="table-token-{{color}}-n-on-table">{{ game.get_table_tokens().get_info(color) }}</a>
+                    {% else %}
+                        {{ game.get_table_tokens().get_info(color) }}
+                    {% endif %}
+                </span>
+            </div>
         {% endif %}
     {%endfor%}
 </div>
@@ -65,7 +77,9 @@
                     </div>
                 </div>
                 {% endfor %}
-                {{ gameplayer.get_items_per_color(color)}} {{ color }}
+                <span id="player-{{color}}-total">
+                    {{ gameplayer.get_items_per_color(color)}} {{ color }}
+                </span>
             </div>
             {% endfor %}
 
@@ -111,6 +125,11 @@
 <h1>Actions</h1>
 {% if gameplayer.ismyturntoplay %}
 It's my turn to play!
+
+<h2>Pick tokens from the table</h2>
+<a href="javascript:reset_tokens_picked()">Reset tokens already picked</a>
+
+
 {% else %}
 Not yet my turn to play...
 {% endif %}

@@ -55,9 +55,26 @@
     height:40px;
     display:inline-block;
     border-radius: 20px;
-    text-align:center;
-    line-height: 40px;
     border:1px solid grey;
+    position:relative;
+    line-height: 40px;
+    text-align:center;
+}
+
+.n_picked{
+    position:absolute;
+    width:20px;
+    height:20px;
+    display:block;
+    line-height:20px;
+    top:-15px;
+    left:0px;
+    color:black;
+    font-weight:bold;
+    font-size:16px;
+    border-radius: 10px;
+    background: grey;
+    color: white;
 }
 
 .card-top{
@@ -99,32 +116,36 @@
     float:right;
 }
 
-.card-blue{
+.card-blue, .card-blue a{
     background-color:blue;
     color:white;
 }
 
-.card-black{
+.card-black, .card-black a{
     background-color:black;
     color:white;
 }
 
-.card-white{
+.card-white, .card-white a{
     background-color:white;
     color:black;
 }
 
-.card-red{
+.card-red, .card-red a{
     background-color:red;
     color:white;
 }
 
-.card-green{
+.card-green, .card-green a{
     background-color:green;
     color:white;
 }
 
-.card-yellow{
+.card-yellow, .card-yellow a{
     background-color:yellow;
     color:black;
+}
+
+.token a{
+    text-decoration:none;
 }
