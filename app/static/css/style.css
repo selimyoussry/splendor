@@ -79,6 +79,16 @@
     text-align:center;
 }
 
+.tiny-card{
+    width:20px;
+    height:30px;
+    margin:2px;
+    float:left;
+    border-radius: 3px;
+    border:1px solid grey;
+    text-align:center;
+}
+
 .tiny-gem{
     width:20px;
     height:20px;
@@ -116,5 +126,5 @@
 
 .card-yellow{
     background-color:yellow;
-    color:white;
+    color:black;
 }

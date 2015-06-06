@@ -146,6 +146,14 @@ class GamePlayer(db.Model):
     def get_tokens(self):
         return self.tokens[0]
 
+    def get_items_per_color(self, color):
+        return len(self.get_cards_by_color(color)) + self.get_tokens().get_info(color)
+
+    def get_points(self):
+        cards_points = sum([c.card.value for c in self.cards if c.bought])
+        squares_points = len(self.get_squares())
+        return cards_points + squares_points
+
     def __repr__(self):
         return '<Game {} - Player {}>'.format(self.game, self.player.name)
 
