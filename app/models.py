@@ -134,11 +134,14 @@ class GamePlayer(db.Model):
     tokens = db.relationship('GamePlayerTokens', backref='gameplayer', lazy='dynamic')
     turns = db.relationship('GamePlayerTurn', backref='gameplayer', lazy='dynamic')
 
-    def get_cards(self):
-        return self.cards
+    def get_cards_by_color(self, color):
+        return [c.card for c in self.cards if c.card.color==color and c.bought]
+
+    def get_cards_not_bought(self):
+        return [c.card for c in self.cards if not c.bought]
 
     def get_squares(self):
-        return self.squares
+        return [s.square for s in self.squares]
 
     def get_tokens(self):
         return self.tokens[0]

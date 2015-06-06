@@ -6,3 +6,5 @@ flask/
 db_repository/
 *.db
 /tmp
+.ipynb*
+*.ipynb

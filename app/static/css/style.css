@@ -2,7 +2,7 @@
     display:inline-block;
 }
 
-.card{
+.table-card{
     width:80px;
     height:100px;
     display:inline-block;
@@ -13,7 +13,32 @@
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
 }
 
-.square{
+.player-colors{
+    display:inline-block;
+}
+
+.player-card{
+    width:80px;
+    height:30px;
+    display:block;
+    padding:2px;
+    border:1px solid black;
+    border-radius: 10px;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+
+.player-yellow-card{
+    width:80px;
+    height:100px;
+    display:block;
+    padding:2px;
+    border:1px solid black;
+    border-radius: 10px;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    background:#D5D5D5;
+}
+
+.table-square{
     width:80px;
     height:80px;
     text-align:center;
@@ -22,6 +47,7 @@
     padding:2px;
     border-radius: 10px;
     border:1px solid grey;
+    background:#4A60B7;
 }
 
 .token{
@@ -36,10 +62,10 @@
 
 .card-top{
     padding:5px 5px 5px 5px;
-    border-bottom: 1px solid black;
 }
 
 .card-bottom{
+    border-top: 1px solid black;
     padding:5px 5px 5px 5px;
 }
 
