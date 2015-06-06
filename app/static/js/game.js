@@ -233,9 +233,9 @@ function want_to_buy_tokens(){
     return ret;
 }
 
-function play_server(game_id){
+function play_server(game_id, gameplayer_id){
 
-    var play = {what: '?', game_id:game_id};
+    var play = {what: '?', game_id:game_id, gameplayer_id: gameplayer_id};
     if(want_to_reserve_a_card()){
         play.what = "reserve-a-card";
         play.table_card_id = parseInt($('.' + RESERVE_CLASS).attr('id').split('-').pop());

@@ -171,7 +171,7 @@ def play():
     elif request.form['what'] == 'buy-a-card':
         print 'card id', request.form['table_card_id']
     elif request.form['what'] == 'buy-tokens':
-        print request.form['tokens_to_buy']
+        gameSetUp.play_tokens(request.form['gameplayer_id'], request.form['tokens_to_buy'])
 
     gameSetUp.next_turn()
 

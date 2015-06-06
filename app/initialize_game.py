@@ -129,3 +129,14 @@ class GameSetUp:
         next_player.ismyturntoplay = True
         self.db.session.commit()
 
+    def play_tokens(self, gameplayer_id, tokens_to_buy):
+        gpt = models.GamePlayerTokens.query.filter(models.GamePlayerTokens.id_game_player==gameplayer_id).all()[0]
+        gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game==self.game.id).all()[0]
+
+        tokens_to_buy = tokens_to_buy.split('_')
+        for t in tokens_to_buy:
+            color, number = t.split('-')
+            gpt.add_token(color, int(number))
+            gtt.add_token(color, - int(number))
+
+        self.db.session.commit()

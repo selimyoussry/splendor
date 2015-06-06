@@ -203,6 +203,20 @@ class GamePlayerTokens(db.Model):
         elif color == 'yellow':
             return self.nyellow
 
+    def add_token(self, color, number):
+        if color == 'blue':
+            self.nblue += number
+        elif color == 'green':
+            self.ngreen += number
+        elif color == 'white':
+            self.nwhite += number
+        elif color == 'black':
+            self.nblack += number
+        elif color == 'red':
+            self.nred += number
+        elif color == 'yellow':
+            self.nyellow += number
+
     def __repr__(self):
         return '<GamePlayer {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.gameplayer, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)
 
@@ -251,6 +265,21 @@ class GameTableTokens(db.Model):
             return self.nred
         elif color == 'yellow':
             return self.nyellow
+
+    def add_token(self, color, number):
+        if color == 'blue':
+            self.nblue += number
+        elif color == 'green':
+            self.ngreen += number
+        elif color == 'white':
+            self.nwhite += number
+        elif color == 'black':
+            self.nblack += number
+        elif color == 'red':
+            self.nred += number
+        elif color == 'yellow':
+            self.nyellow += number
+
 
     def __repr__(self):
         return '<Game {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.game, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)
