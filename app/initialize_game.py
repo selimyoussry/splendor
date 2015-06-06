@@ -45,6 +45,8 @@ class GameSetUp:
         player_orders = random.sample(self.game.get_players(), len(self.game.get_players()))
         for assigned_order in range(len(player_orders)):
             player_orders[assigned_order].game_order = assigned_order
+            player_orders[assigned_order].ismyturntoplay = assigned_order == 0
+
         self.db.session.commit()
 
     def initialize_cards_deck(self):

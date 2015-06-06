@@ -128,11 +128,11 @@ class GamePlayer(db.Model):
     id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
     game_order = db.Column(db.Integer)
     points = db.Column(db.Integer)
+    ismyturntoplay = db.Column(db.Boolean())
 
     cards = db.relationship('GamePlayerCard', backref='gameplayer', lazy='dynamic')
     squares = db.relationship('GamePlayerSquare', backref='gameplayer', lazy='dynamic')
     tokens = db.relationship('GamePlayerTokens', backref='gameplayer', lazy='dynamic')
-    turns = db.relationship('GamePlayerTurn', backref='gameplayer', lazy='dynamic')
 
     def get_cards_by_color(self, color):
         return [c.card for c in self.cards if c.card.color==color and c.bought]
@@ -265,12 +265,3 @@ class GameDeckCard(db.Model):
 
     def __repr__(self):
         return '<Game {} - Card {}>'.format(self.game, self.card)
-
-
-class GamePlayerTurn(db.Model):
-    __tablename__ = 'game_turn'
-    id = db.Column(db.Integer, primary_key=True)
-    id_game_player = db.Column(db.Integer, db.ForeignKey('game_player.id'))
-
-    def __repr__(self):
-        return '<GamePlayer {}>'.format(self.gameplayer)
