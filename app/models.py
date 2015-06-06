@@ -20,6 +20,16 @@ class Game(db.Model):
     def get_players(self):
         return [p for p in self.players]
 
+    def get_table_cards_by_rank(self, rank):
+        return [c.card for c in self.table_cards if c.card.rank==rank]
+
+    def get_table_squares(self):
+        return [s.square for s in self.table_squares]
+
+    def get_table_tokens(self):
+        return self.table_tokens[0]
+
+
     def __repr__(self):
         return '<Game {}>'.format(self.id)
 
@@ -67,6 +77,18 @@ class Card(db.Model):
     table = db.relationship('GameTableCard', backref='card', lazy='dynamic')
     deck = db.relationship('GameDeckCard', backref='card', lazy='dynamic')
 
+    def get_info(self, color):
+        if color == 'blue':
+            return self.nblue
+        elif color == 'green':
+            return self.ngreen
+        elif color == 'white':
+            return self.nwhite
+        elif color == 'black':
+            return self.nblack
+        elif color == 'red':
+            return self.nred
+
     def __repr__(self):
         return '<{} Card - Yields {} points>'.format(self.color, self.value)
 
@@ -82,6 +104,18 @@ class Square(db.Model):
 
     game_player = db.relationship('GamePlayerSquare', backref='square', lazy='dynamic')
     table = db.relationship('GameTableSquare', backref='square', lazy='dynamic')
+
+    def get_info(self, color):
+        if color == 'blue':
+            return self.nblue
+        elif color == 'green':
+            return self.ngreen
+        elif color == 'white':
+            return self.nwhite
+        elif color == 'black':
+            return self.nblack
+        elif color == 'red':
+            return self.nred
 
     def __repr__(self):
         return '<Square - Requires {} blue, {} green, {} white, {} red, {} black>'.format(self.nblue, self.ngreen, self.nwhite, self.nred, self.nblack)
@@ -105,7 +139,6 @@ class GamePlayer(db.Model):
 
     def get_squares(self):
         return self.squares
-
 
     def get_tokens(self):
         return self.tokens[0]
@@ -146,6 +179,20 @@ class GamePlayerTokens(db.Model):
     nwhite = db.Column(db.Integer)
     nyellow = db.Column(db.Integer)
 
+    def get_info(self, color):
+        if color == 'blue':
+            return self.nblue
+        elif color == 'green':
+            return self.ngreen
+        elif color == 'white':
+            return self.nwhite
+        elif color == 'black':
+            return self.nblack
+        elif color == 'red':
+            return self.nred
+        elif color == 'yellow':
+            return self.nyellow
+
     def __repr__(self):
         return '<GamePlayer {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.gameplayer, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)
 
@@ -180,6 +227,20 @@ class GameTableTokens(db.Model):
     nblack = db.Column(db.Integer)
     nwhite = db.Column(db.Integer)
     nyellow = db.Column(db.Integer)
+
+    def get_info(self, color):
+        if color == 'blue':
+            return self.nblue
+        elif color == 'green':
+            return self.ngreen
+        elif color == 'white':
+            return self.nwhite
+        elif color == 'black':
+            return self.nblack
+        elif color == 'red':
+            return self.nred
+        elif color == 'yellow':
+            return self.nyellow
 
     def __repr__(self):
         return '<Game {} - NTokens {} blue, {} black, {} red, {} white, {} green, {} yellow>'.format(self.game, self.nblue, self.nblack, self.nred, self.nwhite, self.ngreen, self.nyellow)

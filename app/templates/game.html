@@ -1,58 +1,78 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Cards on the table</h1>
-{% for card in game.table_cards %}
 
-    <div class="card">
-        <div class="card-top">
-            <span class="card-value">{{ card.card.value }}</span>
-            <span class="card-color tiny-gem card-{{ card.card.color }}"></span>
-        </div>
-        <div class="card-bottom">
-            <!-- Cards needed -->
-            <div class="tiny-card card-blue">3</div>
-        </div>
-    </div>
+<div class="table-cards">
+    <h1>Cards on the table</h1>
 
-{% endfor %}
+    {% for rank in [1, 2, 3]%}
+        {% for card in game.get_table_cards_by_rank(rank) %}
+            <div class="card">
+                <div class="card-top">
+                    <span class="card-value">{{ card.value }}</span>
+                    <span class="card-color tiny-gem card-{{ card.color }}"></span>
+                </div>
+                <div class="card-bottom">
+                    <!-- Cards needed -->
+                    {%for color in ['blue', 'red', 'green', 'white', 'black']%}
+                        {% if card.get_info(color) != 0 %}
+                            <div class="tiny-token card-{{ color }}">{{ card.get_info(color) }}</div>
+                        {% endif %}
+                    {%endfor%}
+                </div>
+            </div>
+        {% endfor %}
+        <hr />
+    {% endfor %}
+</div>
 
-
+<div class="table-squares-tokens">
 <h1>Available squares</h1>
-{% for square in game.table_squares %}
+{% for square in game.get_table_squares() %}
     <div class="square">
-        {{ square.square }}
+        {%for color in ['blue', 'red', 'green', 'white', 'black']%}
+            {% if square.get_info(color) != 0 %}
+                <div class="tiny-token card-{{ color }}">{{ square.get_info(color) }}</div>
+            {% endif %}
+        {%endfor%}
     </div>
 {% endfor %}
 
-<h1>Tokens</h1>
-{{ game.table_tokens[0] }}
+    <h1>Available Tokens</h1>
+    {%for color in ['blue', 'red', 'green', 'white', 'black']%}
+        {% if game.get_table_tokens().get_info(color) != 0 %}
+            <div class="token card-{{ color }}">{{ game.get_table_tokens().get_info(color) }}</div>
+        {% endif %}
+    {%endfor%}
+</div>
 
-<h1>Players</h1>
-<ul>
-{% for player in game.get_players() %}
-    <li>{{ player }} </li>
-    Cards: <br />
+<div class="table-players">
+    <h1>Players</h1>
     <ul>
-        {% for card in player.get_cards() %}
-        <li>
-            Card {{ card }}
-        </li>
-        {% endfor %}
+    {% for player in game.get_players() %}
+        <li>{{ player }} </li>
+        Cards: <br />
+        <ul>
+            {% for card in player.get_cards() %}
+            <li>
+                Card {{ card }}
+            </li>
+            {% endfor %}
+        </ul>
+        <br />
+        Tokens: {{  player.get_tokens() }}
+        <br />
+        Squares
+        <ul>
+            {% for square in player.get_squares() %}
+            <li>
+                Square {{ square }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
     </ul>
-    <br />
-    Tokens: {{  player.get_tokens() }}
-    <br />
-    Squares
-    <ul>
-        {% for square in player.get_squares() %}
-        <li>
-            Square {{ square }}
-        </li>
-        {% endfor %}
-    </ul>
-{% endfor %}
-</ul>
+</div>
 
 <h1>Actions</h1>
 

@@ -1,23 +1,37 @@
+.table-cards, .table-squares-tokens, .table-players{
+    display:inline-block;
+}
+
 .card{
-    width:200px;
-    height:120px;
+    width:80px;
+    height:100px;
     display:inline-block;
     margin:10px;
     padding:2px;
     border:1px solid black;
     border-radius: 10px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-    background:yellow;
 }
 
 .square{
-    width:100px;
-    height:100px;
+    width:80px;
+    height:80px;
     text-align:center;
     display:inline-block;
     margin:10px;
     padding:2px;
-    border:1px black solid;
+    border-radius: 10px;
+    border:1px solid grey;
+}
+
+.token{
+    width:40px;
+    height:40px;
+    display:inline-block;
+    border-radius: 20px;
+    text-align:center;
+    line-height: 40px;
+    border:1px solid grey;
 }
 
 .card-top{
@@ -29,13 +43,13 @@
     padding:5px 5px 5px 5px;
 }
 
-.tiny-card{
+.tiny-token{
     width:20px;
-    height:2s0px;
-    margin-right:2px;
-    display:inline-block;
+    height:20px;
+    margin:2px;
+    float:left;
     border-radius: 10px;
-    border:1px solid white;
+    border:1px solid grey;
     text-align:center;
 }
 
@@ -45,7 +59,7 @@
     margin-right:2px;
     display:inline-block;
     border-radius: 5px;
-    border:1px solid white;
+    border:1px solid grey;
     float:right;
 }
 
