@@ -4,6 +4,7 @@ var COLORS = ['blue', 'black', 'green', 'red', 'white', 'yellow'];
 var MAX_N_RESERVED_CARDS = 3;
 var BUY_CLASS = 'table-card-ready-to-buy';
 var RESERVE_CLASS = 'table-card-ready-to-reserve';
+var MAX_N_TOKENS_OWNED = 10;
 
 // BUY TOKENS
 //////////////////////////
@@ -13,13 +14,21 @@ var RESERVE_CLASS = 'table-card-ready-to-reserve';
 
 
 function pick_token(color){
-
     var i_can_take_the_token = can_take_token(color);
     if(i_can_take_the_token){
         reset_table_cards();
         $('#table-token-' + color).html(get_n_tokens_picked(color) + 1);
     }
+}
 
+function n_tokens_owned(){
+    var total_tokens_owned = 0;
+    for (var i = 0; i < COLORS.length; i++) {
+        var element = $('#player-token-' + COLORS[i]);
+        var n_of_that_color = element.length ? parseInt(element.html()) : 0;
+        total_tokens_owned += n_of_that_color;
+    }
+    return total_tokens_owned;
 }
 
 function get_n_tokens_on_table(color){
@@ -237,6 +246,16 @@ function want_to_buy_tokens(){
             }
         }
     }
+
+    // here check if the total after buying is not more than 10 tokens
+    if(ret){
+        if(get_total_picked_tokens() + n_tokens_owned() > MAX_N_TOKENS_OWNED){
+            game_rules_alert('You cannot have more than 10 tokens.');
+            reset_tokens_picked();
+            ret=false;
+        }
+    }
+
     return ret;
 }
 

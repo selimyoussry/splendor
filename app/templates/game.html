@@ -62,7 +62,7 @@
             {%for color in ['blue', 'red', 'green', 'white', 'black']%}
                 <div class="player-colors">
                     {% if gameplayer.get_tokens().get_info(color) != 0 %}
-                    <div class="token card-{{ color }}">{{ gameplayer.get_tokens().get_info(color) }}</div>
+                    <div class="token card-{{ color }}" id="player-token-{{color}}">{{ gameplayer.get_tokens().get_info(color) }}</div>
                     {% endif %}
 
                     {% for card in gameplayer.get_cards_by_color(color) %}
@@ -81,7 +81,7 @@
 
             <div class="player-colors">
                 {% if gameplayer.get_tokens().get_info('yellow') != 0 %}
-                <div class="token card-yellow">{{ gameplayer.get_tokens().get_info('yellow') }}</div>
+                <div class="token card-yellow" id="player-tokens-yellow">{{ gameplayer.get_tokens().get_info('yellow') }}</div>
                 {% endif %}
 
                 {% for card in gameplayer.get_cards_not_bought() %}
