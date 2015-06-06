@@ -9,12 +9,14 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 from .forms import LoginForm
 
+def listify(l):
+    return [x for x in l]
+
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    user = g.user
 
     games = models.Game.query.filter(models.Game.isOn==True).all()
 
@@ -22,7 +24,7 @@ def index():
 
     return render_template('index.html',
                            title='Home',
-                           user=user,
+                           player=g.user,
                            games=gamesSetUp)
 
 
@@ -127,11 +129,14 @@ def game(game_id):
     if not gameSetUp.game.isOn:
         gameSetUp.initialize_game()
 
-    print 'user', g.user
+    gameplayer = models.GamePlayer.query.filter(models.GamePlayer.id_game == game_id, models.GamePlayer.id_player==g.user.id).all()
+    if len(gameplayer) > 0:
+        gameplayer = gameplayer[0]
 
     return render_template('game.html',
                            title='Game {}'.format(game_id),
-                           game=gameSetUp.game)
+                           game=gameSetUp.game,
+                           gameplayer=gameplayer)
 
 
 @app.route('/action/', methods=['GET', 'POST'])

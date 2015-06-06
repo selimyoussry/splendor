@@ -109,5 +109,11 @@
 </div>
 
 <h1>Actions</h1>
+{% if gameplayer.ismyturntoplay %}
+It's my turn to play!
+{% else %}
+Not yet my turn to play...
+{% endif %}
+
 
 {% endblock %}
