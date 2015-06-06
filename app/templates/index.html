@@ -7,7 +7,7 @@
 <h1>Ongoing games:</h1>
 {% for game in games %}
 <ul>
-    <li><a href="/game/{{game.game.id}}">Join Game {{game.game.id}} with {{game.players}}</a></li>
+    <li><a href="/game/{{game.game.id}}">Join Game {{game.game.id}} with {{game.game.get_players()}}</a></li>
 </ul>
 {% endfor %}
 

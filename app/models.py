@@ -18,7 +18,7 @@ class Game(db.Model):
     deck_cards = db.relationship('GameDeckCard', backref='game', lazy='dynamic')
 
     def get_players(self):
-        return self.players
+        return [p for p in self.players]
 
     def __repr__(self):
         return '<Game {}>'.format(self.id)

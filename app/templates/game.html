@@ -3,18 +3,27 @@
 
 <h1>Cards on the table</h1>
 {% for card in game.table_cards %}
-    <div class="card card-{{ card.card.color }}">
-        {{ card.card.value }}
+
+    <div class="card">
+        <div class="card-top">
+            <span class="card-value">{{ card.card.value }}</span>
+            <span class="card-color tiny-gem card-{{ card.card.color }}"></span>
+        </div>
+        <div class="card-bottom">
+            <!-- Cards needed -->
+            <div class="tiny-card card-blue">3</div>
+        </div>
     </div>
+
 {% endfor %}
 
 
 <h1>Available squares</h1>
-<ul>
 {% for square in game.table_squares %}
-    <li>{{ square }}</li>
+    <div class="square">
+        {{ square.square }}
+    </div>
 {% endfor %}
-</ul>
 
 <h1>Tokens</h1>
 {{ game.table_tokens[0] }}

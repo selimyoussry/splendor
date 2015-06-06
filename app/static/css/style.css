@@ -1,0 +1,80 @@
+.card{
+    width:200px;
+    height:120px;
+    display:inline-block;
+    margin:10px;
+    padding:2px;
+    border:1px solid black;
+    border-radius: 10px;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    background:yellow;
+}
+
+.square{
+    width:100px;
+    height:100px;
+    text-align:center;
+    display:inline-block;
+    margin:10px;
+    padding:2px;
+    border:1px black solid;
+}
+
+.card-top{
+    padding:5px 5px 5px 5px;
+    border-bottom: 1px solid black;
+}
+
+.card-bottom{
+    padding:5px 5px 5px 5px;
+}
+
+.tiny-card{
+    width:20px;
+    height:2s0px;
+    margin-right:2px;
+    display:inline-block;
+    border-radius: 10px;
+    border:1px solid white;
+    text-align:center;
+}
+
+.tiny-gem{
+    width:20px;
+    height:20px;
+    margin-right:2px;
+    display:inline-block;
+    border-radius: 5px;
+    border:1px solid white;
+    float:right;
+}
+
+.card-blue{
+    background-color:blue;
+    color:white;
+}
+
+.card-black{
+    background-color:black;
+    color:white;
+}
+
+.card-white{
+    background-color:white;
+    color:black;
+}
+
+.card-red{
+    background-color:red;
+    color:white;
+}
+
+.card-green{
+    background-color:green;
+    color:white;
+}
+
+.card-yellow{
+    background-color:yellow;
+    color:white;
+}
