@@ -21,10 +21,10 @@ class Game(db.Model):
         return [p for p in self.players]
 
     def get_table_cards_by_rank(self, rank):
-        return [c.card for c in self.table_cards if c.card.rank==rank]
+        return [c for c in self.table_cards if c.card.rank==rank]
 
     def get_table_squares(self):
-        return [s.square for s in self.table_squares]
+        return [s for s in self.table_squares]
 
     def get_table_tokens(self):
         return self.table_tokens[0]
