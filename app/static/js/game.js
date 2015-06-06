@@ -133,7 +133,7 @@ function can_he_buy_card(card_info){
         }
     }
     console.log('n_yellow_needed', n_yellow_needed);
-    return n_yellow_needed < get_total_items('yellow');
+    return n_yellow_needed <= get_total_items('yellow');
 }
 
 function get_card_info(table_card_id){
@@ -146,7 +146,7 @@ function get_card_info(table_card_id){
     return card_info;
 }
 
-function buy_or_reserve_card(table_card_id){
+function buy_or_reserve_card(table_card_id, already_reserved){
     var can_buy_card = can_he_buy_card(get_card_info(table_card_id));
 
     if(can_buy_card){
@@ -156,8 +156,8 @@ function buy_or_reserve_card(table_card_id){
             reset_table();
             $('#table-card-' + table_card_id).addClass(BUY_CLASS);
         }
-        $('.table-card').removeClass(RESERVE_CLASS);
-    }else if(get_n_reserved_cards() < MAX_N_RESERVED_CARDS){
+        $('.buyable-card').removeClass(RESERVE_CLASS);
+    }else if(get_n_reserved_cards() < MAX_N_RESERVED_CARDS && !already_reserved){
         if($('#table-card-' + table_card_id).hasClass(RESERVE_CLASS)){
             reset_table();
         }else{
@@ -183,8 +183,8 @@ function reset_table(){
 }
 
 function reset_table_cards(){
-    $('.table-card').removeClass(RESERVE_CLASS);
-    $('.table-card').removeClass(BUY_CLASS);
+    $('.buyable-card').removeClass(RESERVE_CLASS);
+    $('.buyable-card').removeClass(BUY_CLASS);
 }
 
 
@@ -215,6 +215,13 @@ function want_to_reserve_a_card(){
     return $('.' + RESERVE_CLASS).length > 0;
 }
 
+function want_to_buy_a_reserved_card(){
+    if($('.player-yellow-card').length > 0){
+        console.log($('.player-yellow-card').hasClass(BUY_CLASS));
+        return $('.player-yellow-card').hasClass(BUY_CLASS)
+    }
+}
+
 function want_to_buy_a_card(){
     return $('.' + BUY_CLASS).length > 0;
 }
@@ -239,9 +246,12 @@ function play_server(game_id, gameplayer_id){
     if(want_to_reserve_a_card()){
         play.what = "reserve-a-card";
         play.table_card_id = parseInt($('.' + RESERVE_CLASS).attr('id').split('-').pop());
+    }else if(want_to_buy_a_reserved_card()){
+        play.what = "buy-a-reserved-card";
+        play.player_card_id = parseInt($('.' + BUY_CLASS).attr('id').split('-').pop());
     }else if(want_to_buy_a_card()){
         play.what = "buy-a-card";
-        play.table_card_id = parseInt($('.' + RESERVE_CLASS).attr('id').split('-').pop());
+        play.table_card_id = parseInt($('.' + BUY_CLASS).attr('id').split('-').pop());
     }else if(want_to_buy_tokens()){
         play.what = "buy-tokens";
         play.tokens_to_buy = [];

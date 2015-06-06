@@ -11,11 +11,10 @@
     border:1px solid black;
     border-radius: 10px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-    box-shadow: 2px 2px 2px grey;
 }
 
 .table-card-ready-to-buy{
-    background:grey;
+    background:grey !important;
 }
 
 .table-card-ready-to-reserve{
@@ -23,11 +22,15 @@
     opacity:0.4;
 }
 
-.table-card:hover{
+.buyable-card{
+    box-shadow: 2px 2px 2px grey;
+}
+
+.buyable-card:hover{
     box-shadow: 2px 2px 2px orange;
 }
 
-.table-card:active{
+.buyable-card:active{
     box-shadow: 0px 0px 0px orange;
 }
 

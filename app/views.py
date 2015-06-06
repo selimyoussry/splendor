@@ -166,12 +166,34 @@ def play():
         db=db
     )
 
+    print request.form['what']
+
     if request.form['what'] == 'reserve-a-card':
-        print 'card id', request.form['table_card_id']
+        gameSetUp.buy_or_reserve_card(
+            gameplayer_id=request.form['gameplayer_id'],
+            table_card_id=request.form['table_card_id'],
+            bought=False
+        )
+        gameSetUp.play_tokens(
+            gameplayer_id=request.form['gameplayer_id'],
+            tokens_to_buy='yellow-1'
+        )
     elif request.form['what'] == 'buy-a-card':
-        print 'card id', request.form['table_card_id']
+        gameSetUp.buy_or_reserve_card(
+            gameplayer_id=request.form['gameplayer_id'],
+            table_card_id=request.form['table_card_id'],
+            bought=True
+        )
+    elif request.form['what'] == 'buy-a-reserved-card':
+        print 'trhou'
+        gameSetUp.buy_a_reserved_card(
+            player_card_id=request.form['player_card_id']
+        )
     elif request.form['what'] == 'buy-tokens':
-        gameSetUp.play_tokens(request.form['gameplayer_id'], request.form['tokens_to_buy'])
+        gameSetUp.play_tokens(
+            gameplayer_id=request.form['gameplayer_id'],
+            tokens_to_buy=request.form['tokens_to_buy']
+        )
 
     gameSetUp.next_turn()
 

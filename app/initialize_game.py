@@ -140,3 +140,41 @@ class GameSetUp:
             gtt.add_token(color, - int(number))
 
         self.db.session.commit()
+
+    def buy_or_reserve_card(self, gameplayer_id, table_card_id, bought):
+        tc = models.GameTableCard.query.get(table_card_id)
+
+        # Add this card to the corresponding player
+        gpc = models.GamePlayerCard(
+            id_game_player=gameplayer_id,
+            id_card=tc.card.id,
+            bought=bought)
+
+        # Pick a new card from the deck
+        new_gdc = random.choice(self.game.get_deck_cards_by_rank(rank=tc.card.rank))
+
+        # Put this new card on the table
+        new_gtc = models.GameTableCard(
+            id_game=self.game.id,
+            id_card=new_gdc.card.id
+        )
+
+        # Add new card to table
+        self.db.session.add(new_gtc)
+
+        # Add new card to player
+        self.db.session.add(gpc)
+
+        # Delete new card from deck
+        self.db.session.delete(new_gdc)
+
+        # Delete new card from table
+        self.db.session.delete(tc)
+
+        self.db.session.commit()
+
+    def buy_a_reserved_card(self, player_card_id):
+        print 'going tru'
+        gpc = models.GamePlayerCard.query.get(player_card_id)
+        gpc.bought = True
+        self.db.session.commit()

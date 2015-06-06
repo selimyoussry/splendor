@@ -23,6 +23,9 @@ class Game(db.Model):
     def get_table_cards_by_rank(self, rank):
         return [c for c in self.table_cards if c.card.rank==rank]
 
+    def get_deck_cards_by_rank(self, rank):
+        return [c for c in self.deck_cards if c.card.rank==rank]
+
     def get_table_squares(self):
         return [s for s in self.table_squares]
 
@@ -137,7 +140,7 @@ class GamePlayer(db.Model):
         return [c.card for c in self.cards if c.card.color==color and c.bought]
 
     def get_cards_not_bought(self):
-        return [c.card for c in self.cards if not c.bought]
+        return [c for c in self.cards if not c.bought]
 
     def get_squares(self):
         return [s.square for s in self.squares]

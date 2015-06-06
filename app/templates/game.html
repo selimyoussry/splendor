@@ -6,7 +6,7 @@
 
     {% for rank in [1, 2, 3]%}
         {% for table_card in game.get_table_cards_by_rank(rank) %}
-            <div class="table-card" id="table-card-{{table_card.id}}" onclick="buy_or_reserve_card({{table_card.id}})">
+            <div class="table-card buyable-card" id="table-card-{{table_card.id}}" onclick="buy_or_reserve_card({{table_card.id}}, false)">
                 <div class="card-top">
                     <span class="card-value">{{ table_card.card.value }}</span>
                     <span class="card-color tiny-gem card-{{ table_card.card.color }}"></span>
@@ -85,16 +85,16 @@
                 {% endif %}
 
                 {% for card in gameplayer.get_cards_not_bought() %}
-                <div class="player-yellow-card">
+                <div class="player-yellow-card buyable-card" id="table-card-r-{{card.id}}" onclick="buy_or_reserve_card('r-{{card.id}}', true)">
                     <div class="card-top">
-                        <span class="card-value">{{ card.value }}</span>
-                        <span class="card-color tiny-gem card-{{ card.color }}"></span>
+                        <span class="card-value">{{ card.card.value }}</span>
+                        <span class="card-color tiny-gem card-{{ card.card.color }}"></span>
                     </div>
                     <div class="card-bottom">
                         <!-- Cards needed -->
                         {%for color in ['blue', 'red', 'green', 'white', 'black']%}
-                        {% if card.get_info(color) != 0 %}
-                        <div class="tiny-token card-{{ color }}">{{ card.get_info(color) }}</div>
+                        {% if card.card.get_info(color) != 0 %}
+                        <div class="tiny-token card-{{ color }}" id="table-card-r-{{card.id}}-n{{color}}">{{ card.card.get_info(color) }}</div>
                         {% endif %}
                         {%endfor%}
                     </div>
