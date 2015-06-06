@@ -1,13 +1,11 @@
-from flask import render_template, flash, redirect
-from app import app
 from forms import *
 import models
-from app import db
 from initialize_game import GameSetUp
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from .forms import LoginForm
+
 
 def listify(l):
     return [x for x in l]
@@ -139,7 +137,7 @@ def game(game_id):
                            gameplayer=gameplayer)
 
 
-@app.route('/action/', methods=['GET', 'POST'])
+@app.route('/action', methods=['GET', 'POST'])
 @login_required
 def action():
 
@@ -155,7 +153,27 @@ def action():
     # Action 4
     # Reserve a card
 
-
     return render_template('game.html',
                            title='Game {}'.format(game_id),
-                           game=gameSetUp.game)
+                           game='')
+
+@app.route('/play', methods=['GET', 'POST'])
+@login_required
+def play():
+
+    gameSetUp = GameSetUp(
+        game_id=request.form['game_id'],
+        db=db
+    )
+
+    if request.form['what'] == 'reserve-a-card':
+        print 'card id', request.form['table_card_id']
+    elif request.form['what'] == 'buy-a-card':
+        print 'card id', request.form['table_card_id']
+    elif request.form['what'] == 'buy-tokens':
+        print request.form['tokens_to_buy']
+
+    gameSetUp.next_turn()
+
+
+    return jsonify({'what': request.form['what']})

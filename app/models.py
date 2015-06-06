@@ -29,7 +29,6 @@ class Game(db.Model):
     def get_table_tokens(self):
         return self.table_tokens[0]
 
-
     def __repr__(self):
         return '<Game {}>'.format(self.id)
 

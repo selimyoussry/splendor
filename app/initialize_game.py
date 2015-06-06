@@ -119,3 +119,13 @@ class GameSetUp:
             self.db.session.add(game_player_tokens_tmp)
             self.db.session.commit()
         print '0 Token for each player'
+
+    def next_turn(self):
+        current_game_player_playing = models.GamePlayer.query.filter(models.GamePlayer.ismyturntoplay==True, models.GamePlayer.id_game==self.game.id).all()[0]
+        next_player_order = (current_game_player_playing.game_order + 1) % len(self.game.get_players())
+        next_player = models.GamePlayer.query.filter(models.GamePlayer.game_order == next_player_order, models.GamePlayer.id_game==self.game.id).all()[0]
+
+        current_game_player_playing.ismyturntoplay = False
+        next_player.ismyturntoplay = True
+        self.db.session.commit()
+

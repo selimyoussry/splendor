@@ -203,3 +203,67 @@ function can_he_reserve_card(){
     console.log('n_yellow_needed', n_yellow_needed);
     return n_yellow_needed > get_total_items('yellow');
 }
+
+
+// PLAY
+//////////////////////////
+//////////////////////////
+//////////////////////////
+//////////////////////////
+
+function want_to_reserve_a_card(){
+    return $('.' + RESERVE_CLASS).length > 0;
+}
+
+function want_to_buy_a_card(){
+    return $('.' + BUY_CLASS).length > 0;
+}
+
+function want_to_buy_tokens(){
+    ret = false;
+    if(get_total_picked_tokens() == 3){
+        ret = true;
+    }else{
+        for (var i = 0; i < COLORS_NO_YELLOW.length; i++) {
+            if(get_n_tokens_picked(COLORS_NO_YELLOW[i]) == 2){
+                ret = true;
+            }
+        }
+    }
+    return ret;
+}
+
+function play_server(game_id){
+
+    var play = {what: '?', game_id:game_id};
+    if(want_to_reserve_a_card()){
+        play.what = "reserve-a-card";
+        play.table_card_id = parseInt($('.' + RESERVE_CLASS).attr('id').split('-').pop());
+    }else if(want_to_buy_a_card()){
+        play.what = "buy-a-card";
+        play.table_card_id = parseInt($('.' + RESERVE_CLASS).attr('id').split('-').pop());
+    }else if(want_to_buy_tokens()){
+        play.what = "buy-tokens";
+        play.tokens_to_buy = [];
+        for (var i = 0; i < COLORS_NO_YELLOW.length; i++) {
+            var n_tokens_for_that_color = get_n_tokens_picked(COLORS_NO_YELLOW[i]);
+            if(n_tokens_for_that_color > 0){
+                play.tokens_to_buy.push(COLORS_NO_YELLOW[i] + '-' + n_tokens_for_that_color)
+            }
+        }
+        play.tokens_to_buy = play.tokens_to_buy.join('_');
+        console.log('tok', play.tokens_to_buy);
+    }
+
+if(play.what == '?'){
+    game_rules_alert('Your selection is not correct motherfucker!');
+}else{
+    $.post( "/play", play)
+        .done(function( data ) {
+        //location.reload();
+    });
+
+}
+
+
+}
