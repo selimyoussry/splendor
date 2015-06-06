@@ -16,6 +16,7 @@ function pick_token(color){
 
     var i_can_take_the_token = can_take_token(color);
     if(i_can_take_the_token){
+        reset_table_cards();
         $('#table-token-' + color).html(get_n_tokens_picked(color) + 1);
     }
 
