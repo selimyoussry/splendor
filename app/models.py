@@ -156,6 +156,32 @@ class GamePlayer(db.Model):
         squares_points = len(self.get_squares())
         return cards_points + squares_points
 
+    def spend_n_tokens(self, color, n):
+        if n <= 0:
+            return False
+        if color == 'blue':
+            self.tokens[0].nblue -= n
+        elif color == 'green':
+            self.tokens[0].ngreen -= n
+        elif color == 'white':
+            self.tokens[0].nwhite -= n
+        elif color == 'black':
+            self.tokens[0].nblack -= n
+        elif color == 'red':
+            self.tokens[0].nred -= n
+        db.session.commit()
+
+    def buy_a_card_spend_tokens(self, card):
+        """
+        :type card: Card
+        :return:
+        """
+        for c in colors:
+            n_tokens_to_spend = max(card.get_info(c) - len(self.get_cards_by_color(c)), 0)
+            if n_tokens_to_spend > 0:
+                self.spend_n_tokens(color=c, n=n_tokens_to_spend)
+                print 'Spend {} {} tokens'.format(n_tokens_to_spend, c)
+
     def __repr__(self):
         return '<Game {} - Player {}>'.format(self.game, self.player.name)
 

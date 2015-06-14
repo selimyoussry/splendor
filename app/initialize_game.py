@@ -149,6 +149,9 @@ class GameSetUp:
             id_game_player=gameplayer_id,
             id_card=tc.card.id,
             bought=bought)
+        # Add new card to player
+        self.db.session.add(gpc)
+        self.db.session.commit()
 
         # Pick a new card from the deck
         new_gdc = random.choice(self.game.get_deck_cards_by_rank(rank=tc.card.rank))
@@ -159,11 +162,13 @@ class GameSetUp:
             id_card=new_gdc.card.id
         )
 
+        # If bought, then take the player's money
+        if bought:
+            print gpc
+            gpc.gameplayer.buy_a_card_spend_tokens(tc.card)
+
         # Add new card to table
         self.db.session.add(new_gtc)
-
-        # Add new card to player
-        self.db.session.add(gpc)
 
         # Delete new card from deck
         self.db.session.delete(new_gdc)
@@ -177,4 +182,8 @@ class GameSetUp:
         print 'going tru'
         gpc = models.GamePlayerCard.query.get(player_card_id)
         gpc.bought = True
+
+        # If bought, then take the player's money
+        gpc.gameplayer.buy_a_card_spend_tokens(gpc.card)
+
         self.db.session.commit()
