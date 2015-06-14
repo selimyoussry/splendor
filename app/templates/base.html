@@ -12,6 +12,14 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    // assuming io is the Socket.IO server object
+    socket.configure(function () { 
+      io.set("transports", ["xhr-polling"]); 
+      io.set("polling duration", 10); 
+    });
+
+
     socket.on('connect', function() {
         socket.emit('my event', {data: 'I\'m connected!'});
         console.log('connected to socket');
