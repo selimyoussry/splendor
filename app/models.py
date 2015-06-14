@@ -176,11 +176,14 @@ class GamePlayer(db.Model):
         :type card: Card
         :return:
         """
+        tokens_spent = dict()
         for c in colors:
             n_tokens_to_spend = max(card.get_info(c) - len(self.get_cards_by_color(c)), 0)
             if n_tokens_to_spend > 0:
                 self.spend_n_tokens(color=c, n=n_tokens_to_spend)
                 print 'Spend {} {} tokens'.format(n_tokens_to_spend, c)
+            tokens_spent[c] = n_tokens_to_spend
+        return tokens_spent
 
     def __repr__(self):
         return '<Game {} - Player {}>'.format(self.game, self.player.name)
