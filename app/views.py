@@ -3,9 +3,8 @@ import models
 from initialize_game import GameSetUp
 from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, oid, socketio
+from app import app, db, lm, oid
 from .forms import LoginForm
-from flask.ext.socketio import send, emit
 
 
 def listify(l):
@@ -138,25 +137,6 @@ def game(game_id):
                            gameplayer=gameplayer)
 
 
-@app.route('/action', methods=['GET', 'POST'])
-@login_required
-def action():
-
-    # Action 1
-    # Get one card from the deck
-
-    # Action 2
-    # Select 3 tokens
-
-    # Action 3
-    # Select 2 identical tokens
-
-    # Action 4
-    # Reserve a card
-
-    return render_template('game.html',
-                           title='Game {}'.format(game_id),
-                           game='')
 
 @app.route('/play', methods=['GET', 'POST'])
 @login_required
@@ -200,7 +180,3 @@ def play():
 
 
     return jsonify({'what': request.form['what']})
-
-@socketio.on('reload')
-def reload(data):
-    emit('reload', data, broadcast=True)

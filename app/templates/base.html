@@ -7,18 +7,6 @@
     <title>Splendor</title>
     {% endif %}
     <link href="/static/css/style.css" rel="stylesheet">
-    <script src="/static/js/jquery-1.11.3.min.js"></script>
-    <script src="/static/js/game.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-    <script type="text/javascript" charset="utf-8">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-    socket.on('connect', function() {
-        socket.emit('my event', {data: 'I\'m connected!'});
-        console.log('connected to socket');
-    });
-</script>
-
 </head>
 <body>
 
@@ -42,5 +30,13 @@
 {% endif %}
 {% endwith %}
 {% block content %}{% endblock %}
+
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/game.js"></script>
+
+
 </body>
+
+
+
 </html>

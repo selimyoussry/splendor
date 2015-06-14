@@ -289,16 +289,9 @@ function play_server(game_id, gameplayer_id){
     }else{
         $.post( "/play", play)
             .done(function( data ) {
-            socket.emit('reload', {data: 'yes'})
+            console.log('played');
         });
 
     }
 
 }
-
-$(document).ready(function(){
-    socket.on('reload', function(){
-        location.reload();
-    })
-}
-)
