@@ -284,15 +284,21 @@ function play_server(game_id, gameplayer_id){
         console.log('tok', play.tokens_to_buy);
     }
 
-if(play.what == '?'){
-    game_rules_alert('Your selection is not correct motherfucker!');
-}else{
-    $.post( "/play", play)
-        .done(function( data ) {
-        //location.reload();
-    });
+    if(play.what == '?'){
+        game_rules_alert('Your selection is not correct motherfucker!');
+    }else{
+        $.post( "/play", play)
+            .done(function( data ) {
+            socket.emit('reload', {data: 'yes'})
+        });
+
+    }
 
 }
 
-
+$(document).ready(function(){
+    socket.on('reload', function(){
+        location.reload();
+    })
 }
+)

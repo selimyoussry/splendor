@@ -3,8 +3,9 @@ import models
 from initialize_game import GameSetUp
 from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, oid
+from app import app, db, lm, oid, socketio
 from .forms import LoginForm
+from flask.ext.socketio import send, emit
 
 
 def listify(l):
@@ -199,3 +200,7 @@ def play():
 
 
     return jsonify({'what': request.form['what']})
+
+@socketio.on('reload')
+def reload(data):
+    emit('reload', data, broadcast=True)
