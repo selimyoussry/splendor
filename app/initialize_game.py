@@ -165,7 +165,7 @@ class GameSetUp:
         # If bought, then take the player's money
         if bought:
             tokens_to_spend = gpc.gameplayer.buy_a_card_spend_tokens(tc.card)
-            gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game==self.game.id).all()[0]
+            gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game == self.game.id).all()[0]
             for c in tokens_to_spend:
                 if tokens_to_spend[c] > 0:
                     gtt.add_token(color=c, number=tokens_to_spend[c])

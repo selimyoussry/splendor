@@ -159,30 +159,45 @@ class GamePlayer(db.Model):
     def spend_n_tokens(self, color, n):
         if n <= 0:
             return False
+        actual_n = n
         if color == 'blue':
-            self.tokens[0].nblue -= n
+            actual_n = min(n, self.tokens[0].nblue)
+            self.tokens[0].nblue -= actual_n
         elif color == 'green':
-            self.tokens[0].ngreen -= n
+            actual_n = min(n, self.tokens[0].ngreen)
+            self.tokens[0].ngreen -= actual_n
         elif color == 'white':
-            self.tokens[0].nwhite -= n
+            actual_n = min(n, self.tokens[0].nwhite)
+            self.tokens[0].nwhite -= actual_n
         elif color == 'black':
-            self.tokens[0].nblack -= n
+            actual_n = min(n, self.tokens[0].nblack)
+            self.tokens[0].nblack -= actual_n
         elif color == 'red':
-            self.tokens[0].nred -= n
+            actual_n = min(n, self.tokens[0].nred)
+            self.tokens[0].nred -= actual_n
+
+        # If need to spend yellow
+        if actual_n < n:
+            self.tokens[0].nyellow -= (n - actual_n)
+
         db.session.commit()
+
+        return n - actual_n
 
     def buy_a_card_spend_tokens(self, card):
         """
         :type card: Card
         :return:
         """
-        tokens_spent = dict()
+        tokens_spent = {'yellow': 0}
         for c in colors:
             n_tokens_to_spend = max(card.get_info(c) - len(self.get_cards_by_color(c)), 0)
+            nyellowspent = 0
             if n_tokens_to_spend > 0:
-                self.spend_n_tokens(color=c, n=n_tokens_to_spend)
+                nyellowspent = self.spend_n_tokens(color=c, n=n_tokens_to_spend)
                 print 'Spend {} {} tokens'.format(n_tokens_to_spend, c)
-            tokens_spent[c] = n_tokens_to_spend
+                tokens_spent['yellow'] += nyellowspent
+            tokens_spent[c] = n_tokens_to_spend - nyellowspent
         return tokens_spent
 
     def __repr__(self):
@@ -311,6 +326,7 @@ class GameTableTokens(db.Model):
             self.nred += number
         elif color == 'yellow':
             self.nyellow += number
+        print 'adding {} {} tokens'.format(number, color)
 
 
     def __repr__(self):
