@@ -20,6 +20,9 @@ class Game(db.Model):
     def get_players(self):
         return [p for p in self.players]
 
+    def get_player_names(self):
+        return [p.player.name for p in self.players]
+
     def get_table_cards_by_rank(self, rank):
         return [c for c in self.table_cards if c.card.rank==rank]
 

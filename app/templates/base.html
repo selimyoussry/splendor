@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     {% if title %}
     <title>{{ title }} - Splendor</title>
     {% else %}
@@ -11,29 +14,43 @@
 </head>
 <body>
 
-<div>XX:
+<div class="container-fluid">
+    <h1>Splendor Online</h1>
     <a href="{{ url_for('index') }}">Home</a>
     {% if g.user.is_authenticated() %}
         <a href="{{ url_for('logout') }}">Logout</a>
-        <h2>Logged in as {{ g.user.email }}</h2>
     {% endif %}
+    <p>Logged in as {{ g.user.email }}</p>
+</div>
+
+<div class="container-fluid">
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <div class="alert alert-warning fade in" id="game-alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Splendor rules reminder:</strong> <span id="game-alert-message"></span>
+    </div>
+
+</div>
+
+<div class="container-fluid">
+{% block content %}{% endblock %}
 </div>
 
 
-<hr>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{ message }} </li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-{% block content %}{% endblock %}
 
 <script src="/static/js/jquery-1.11.3.min.js"></script>
-<script src="/static/js/bootstrap.min"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootbox.min.js"></script>
 <script src="/static/js/game.js"></script>
 
 

@@ -50,7 +50,8 @@ function get_total_picked_tokens(){
 }
 
 function game_rules_alert(msg){
-    alert('Game Rules Reminder: '+ msg);
+    $('#game-alert-message').html(msg);
+    $('#game-alert').fadeIn();
 }
 
 function can_take_token(color){
@@ -170,17 +171,56 @@ function buy_or_reserve_card(table_card_id, already_reserved){
         if($('#table-card-' + table_card_id).hasClass(RESERVE_CLASS)){
             reset_table();
         }else{
-            if(confirm("You can't buy that card. Do you want to reserve it?")){
-                if(get_n_tokens_on_table('yellow') == 0){
-                    if(confirm("There's no more yellow tokens on the table. Do you still want to reserve that card?")){
+
+            bootbox.dialog({
+              message: "You can't buy that card. Do you want to reserve it?",
+              title: "Shall we reserve that card?",
+              buttons: {
+                success: {
+                  label: "Yes!",
+                  className: "btn-success",
+                  callback: function() {
+                    if(get_n_tokens_on_table('yellow') == 0){
+
+                        bootbox.dialog({
+                          message: "There's no more yellow tokens on the table. Do you still want to reserve that card?",
+                          title: "Shall we reserve that card?",
+                          buttons: {
+                            success: {
+                              label: "Yep",
+                              className: "btn-success",
+                              callback: function() {
+                                reset_table();
+                                $('#table-card-' + table_card_id).addClass(RESERVE_CLASS);
+                                }
+                            },
+                            danger: {
+                              label: "No, muchas gracias!",
+                              className: "btn-danger",
+                              callback: function() {
+                                true;
+                              }
+                            },
+                          }
+                        });
+
+                    }else{
                         reset_table();
                         $('#table-card-' + table_card_id).addClass(RESERVE_CLASS);
                     }
-                }else{
+                  }
+                },
+                danger: {
+                  label: "No thanks!",
+                  className: "btn-danger",
+                  callback: function() {
                     reset_table();
                     $('#table-card-' + table_card_id).addClass(RESERVE_CLASS);
+                  }
                 }
-            }
+              }
+            });
+
         }
 
     }
@@ -198,7 +238,7 @@ function reset_table_cards(){
 
 
 function get_n_reserved_cards(){
-    return $('#player-yellow-card').length;
+    return $('.player-yellow-card').length;
 }
 
 function can_he_reserve_card(){
@@ -295,3 +335,23 @@ function play_server(game_id, gameplayer_id){
     }
 
 }
+
+function get_game_id(){
+    return($('#game-id').html());
+};
+
+function get_gameplayer_id(){
+    return($('#gameplayer-id').html());
+};
+
+$(document).ready(function(){
+
+    $('#play-server').click(function(){
+        play_server(get_game_id(), get_gameplayer_id());
+    });
+
+    $('#reset-tokens-picked').click(function(){
+        reset_tokens_picked();
+    });
+
+});

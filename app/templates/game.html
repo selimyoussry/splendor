@@ -122,15 +122,13 @@
 
 <h1>Actions</h1>
 {% if gameplayer.ismyturntoplay %}
-It's my turn to play!
 
-<h2>Pick tokens from the table</h2>
-<a href="javascript:reset_tokens_picked()">Reset tokens already picked</a>
+<button type="button" class="btn btn-default btn-xs" id="reset-tokens-picked">Reset the selected tokens</button>
+<button type="button" class="btn btn-success btn-lg" id="play-server">Play!</button>
 
-<a href="javascript:play_server({{game.id}}, {{gameplayer.id}})">Play!</a>
+<span id="game-id" class="hidden">{{game.id}}</span>
+<span id="gameplayer-id" class="hidden">{{gameplayer.id}}</span>
 
-{% else %}
-Not yet my turn to play...
 {% endif %}
 
 

@@ -180,3 +180,7 @@
 .token a{
     text-decoration:none;
 }
+
+#game-alert{
+    display:none;
+}
