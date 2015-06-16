@@ -3,12 +3,6 @@ __author__ = 'selim'
 import models
 import random
 
-INITIAL_N_CARDS_PER_RANK = 4
-RANKS = [1, 2, 3]
-N_COLOR_TOKENS = 5
-N_YELLOW_TOKENS = 5
-N_SQUARES = 3
-
 
 def listify(l):
     return [x for x in l]
@@ -23,6 +17,22 @@ class GameSetUp:
         else:
             self.game = game
         self.db = db
+        self.rules = dict()
+
+    def set_rules(self):
+        nplayers = len(self.game.get_players())
+
+        self.rules['INITIAL_N_CARDS_PER_RANK'] = 4
+        self.rules['RANKS'] = [1, 2, 3]
+        self.rules['N_YELLOW_TOKENS'] = 5
+        self.rules['N_SQUARES'] = nplayers + 1
+
+        self.rules['N_COLOR_TOKENS'] = 7
+
+        if nplayers <= 2:
+            self.rules['N_COLOR_TOKENS'] -= 3
+        elif nplayers == 3:
+            self.rules['N_COLOR_TOKENS'] -= 2
 
     def initialize_game(self):
         if self.game.isOn:
@@ -62,12 +72,12 @@ class GameSetUp:
 
     def initialize_cards_table(self):
         # Place randomly 4 cards for each color
-        deck_cards = models.GameDeckCard.query.filter(models.GameDeckCard.id_game==self.game.id).all()
+        deck_cards = models.GameDeckCard.query.filter(models.GameDeckCard.id_game == self.game.id).all()
         deck_cards_per_rank = {1: set(), 2: set(), 3: set()}
         for deck_card in deck_cards:
             deck_cards_per_rank[deck_card.card.rank].add(deck_card)
-        for r in RANKS:
-            picked_deck_cards = random.sample(deck_cards_per_rank[r], INITIAL_N_CARDS_PER_RANK)
+        for r in self.rules['RANKS']:
+            picked_deck_cards = random.sample(deck_cards_per_rank[r], self.rules['INITIAL_N_CARDS_PER_RANK'])
             for deck_card in picked_deck_cards:
                 game_table_card_tmp = models.GameTableCard(
                     id_game=self.game.id,
@@ -81,7 +91,7 @@ class GameSetUp:
 
     def initialize_squares_table(self):
         table_squares_ids = [square.id for square in models.Square.query.all()]
-        picked_squares_ids = random.sample(table_squares_ids, N_SQUARES)
+        picked_squares_ids = random.sample(table_squares_ids, self.rules['N_SQUARES'])
 
         for square_id in picked_squares_ids:
             table_square_tmp = models.GameTableSquare(
@@ -95,12 +105,12 @@ class GameSetUp:
     def initialize_tokens_table(self):
         table_tokens = models.GameTableTokens(
             id_game=self.game.id,
-            nblue=N_COLOR_TOKENS,
-            nred=N_COLOR_TOKENS,
-            ngreen=N_COLOR_TOKENS,
-            nblack=N_COLOR_TOKENS,
-            nwhite=N_COLOR_TOKENS,
-            nyellow=N_YELLOW_TOKENS
+            nblue=self.rules['N_COLOR_TOKENS'],
+            nred=self.rules['N_COLOR_TOKENS'],
+            ngreen=self.rules['N_COLOR_TOKENS'],
+            nblack=self.rules['N_COLOR_TOKENS'],
+            nwhite=self.rules['N_COLOR_TOKENS'],
+            nyellow=self.rules['N_YELLOW_TOKENS']
         )
         self.db.session.add(table_tokens)
         self.db.session.commit()
@@ -109,29 +119,29 @@ class GameSetUp:
     def initialize_tokens_players(self):
         for id_game_player in [p.id for p in self.game.get_players()]:
             game_player_tokens_tmp = models.GamePlayerTokens(
-                id_game_player = id_game_player,
-                nblue = 0,
-                ngreen = 0,
-                nred = 0,
-                nblack = 0,
-                nwhite = 0,
-                nyellow = 0)
+                id_game_player=id_game_player,
+                nblue=0,
+                ngreen=0,
+                nred=0,
+                nblack=0,
+                nwhite=0,
+                nyellow=0)
             self.db.session.add(game_player_tokens_tmp)
             self.db.session.commit()
         print '0 Token for each player'
 
     def next_turn(self):
-        current_game_player_playing = models.GamePlayer.query.filter(models.GamePlayer.ismyturntoplay==True, models.GamePlayer.id_game==self.game.id).all()[0]
+        current_game_player_playing = models.GamePlayer.query.filter(models.GamePlayer.ismyturntoplay == True, models.GamePlayer.id_game == self.game.id).all()[0]
         next_player_order = (current_game_player_playing.game_order + 1) % len(self.game.get_players())
-        next_player = models.GamePlayer.query.filter(models.GamePlayer.game_order == next_player_order, models.GamePlayer.id_game==self.game.id).all()[0]
+        next_player = models.GamePlayer.query.filter(models.GamePlayer.game_order == next_player_order, models.GamePlayer.id_game == self.game.id).all()[0]
 
         current_game_player_playing.ismyturntoplay = False
         next_player.ismyturntoplay = True
         self.db.session.commit()
 
     def play_tokens(self, gameplayer_id, tokens_to_buy):
-        gpt = models.GamePlayerTokens.query.filter(models.GamePlayerTokens.id_game_player==gameplayer_id).all()[0]
-        gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game==self.game.id).all()[0]
+        gpt = models.GamePlayerTokens.query.filter(models.GamePlayerTokens.id_game_player == gameplayer_id).all()[0]
+        gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game == self.game.id).all()[0]
 
         tokens_to_buy = tokens_to_buy.split('_')
         for t in tokens_to_buy:
@@ -188,10 +198,9 @@ class GameSetUp:
 
         # If bought, then take the player's money
         tokens_to_spend = gpc.gameplayer.buy_a_card_spend_tokens(gpc.card)
-        gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game==self.game.id).all()[0]
+        gtt = models.GameTableTokens.query.filter(models.GameTableTokens.id_game == self.game.id).all()[0]
         for c in tokens_to_spend:
             if tokens_to_spend[c] > 0:
                 gtt.add_token(color=c, number=tokens_to_spend[c])
-
 
         self.db.session.commit()

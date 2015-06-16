@@ -127,7 +127,7 @@ def game(game_id):
     if not gameSetUp.game.isOn:
         gameSetUp.initialize_game()
 
-    gameplayer = models.GamePlayer.query.filter(models.GamePlayer.id_game == game_id, models.GamePlayer.id_player==g.user.id).all()
+    gameplayer = models.GamePlayer.query.filter(models.GamePlayer.id_game == game_id, models.GamePlayer.id_player == g.user.id).all()
     if len(gameplayer) > 0:
         gameplayer = gameplayer[0]
 
