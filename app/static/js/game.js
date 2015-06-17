@@ -143,7 +143,7 @@ function get_total_tokens(color){
 }
 
 function get_total_cards(color){
-    return $('.player-card-' + my_gid()).length;
+    return $('.player-card-' + my_gid() + '-' + color).length;
 }
 
 
@@ -162,14 +162,23 @@ function can_he_buy_card(card_info){
 function can_he_buy_square(square_info){
     var ret = true;
     for(var i=0; i<COLORS_NO_YELLOW.length; i++){
-        var d = card_info[COLORS_NO_YELLOW[i]] - get_total_cards(COLORS_NO_YELLOW[i]);
+        var d = square_info[COLORS_NO_YELLOW[i]] - get_total_cards(COLORS_NO_YELLOW[i]);
         if(d > 0){
+            console.log('missing ' + d + ' ' + COLORS_NO_YELLOW[i])
             ret=false;
         }
     }
     return ret;
 }
 
+function squares_he_can_buy(){
+    var sq_ids = get_table_squares_ids();
+    for(var i=0; i<sq_ids.length; i++){
+        console.log(i, get_square_info(sq_ids[i]));
+        console.log(i, can_he_buy_square(get_square_info(sq_ids[i])));
+    }
+
+}
 
 function get_card_info(table_card_id){
     var card_info = {};
@@ -177,8 +186,26 @@ function get_card_info(table_card_id){
         var element = $('#table-card-' + table_card_id + '-n' + COLORS_NO_YELLOW[i]);
         card_info[COLORS_NO_YELLOW[i]] = element.length ? parseInt(element.html()) : 0;
     }
-    console.log(card_info);
     return card_info;
+}
+
+function get_table_squares_ids(){
+    var ids= [];
+    $('.table-square.on-table').each(function(){
+        var splid = $(this).attr('id').split('-');
+        ids.push(splid[splid.length-1]);
+    });
+    return ids;
+}
+
+function get_square_info(table_square_id){
+    var square_info = {};
+
+    for(var i=0; i<COLORS_NO_YELLOW.length; i++){
+        var element = $('#table-square-' + table_square_id + '-' + COLORS_NO_YELLOW[i]);
+        square_info[COLORS_NO_YELLOW[i]] = element.length ? parseInt(element.html()) : 0;
+    }
+    return square_info;
 }
 
 function buy_or_reserve_card(table_card_id, already_reserved){
@@ -375,7 +402,6 @@ function start_game_post_emails(){
         emails.push($(this).html());
     });
 
-    console.log(emails);
     $.post( "/start_game", {data: emails.join(',')})
     .done(function() {
       window.location = '/index';
@@ -417,10 +443,8 @@ $(document).ready(function(){
     });
 
     $('#btn-start-game').click(function(){
-        console.log('str');
         if($('.start-game-add-player.btn-primary').length >= 2){
             start_game_post_emails();
-            console.log('str2');
         };
     });
 
@@ -444,4 +468,5 @@ $(document).ready(function(){
 
     hack_reload_without_socket();
 
+    squares_he_can_buy();
 });

@@ -44,10 +44,10 @@
             <div class="table-squares-tokens row well text-center">
                 <div class="row">
                     {% for table_square in game.get_table_squares() %}
-                    <div class="table-square" id="table-square{{table_square.id}}">
+                    <div class="table-square on-table" id="table-square-{{table_square.id}}">
                         {%for color in ['blue', 'red', 'green', 'white', 'black']%}
                         {% if table_square.square.get_info(color) != 0 %}
-                        <div class="tiny-card card-{{ color }}">{{ table_square.square.get_info(color) }}</div>
+                        <div class="tiny-card card-{{ color }}" id="table-square-{{table_square.id}}-{{color}}">{{ table_square.square.get_info(color) }}</div>
                         {% endif %}
                         {%endfor%}
                     </div>
@@ -95,7 +95,7 @@
                                 {%for color in ['blue', 'red', 'green', 'white', 'black']%}
                                 <td class="col-md-2 text-center">
                                     {% for card in gameplayer.get_cards_by_color(color) %}
-                                    <div class="player-card player-card-{{gameplayer.player.id}}">
+                                    <div class="player-card player-card-{{gameplayer.player.id}}-{{card.color}}">
                                         <div class="card-top">
                                             <span class="card-value">{{ card.value }}</span>
                                             <span class="card-color tiny-gem card-{{ card.color }}"></span>
