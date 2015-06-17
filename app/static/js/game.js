@@ -343,6 +343,7 @@ function get_gameplayer_id(){
     return($('#gameplayer-id').html());
 };
 
+
 $(document).ready(function(){
 
     $('#play-server').click(function(){
@@ -363,6 +364,22 @@ $(document).ready(function(){
     });
 
     $('[data-toggle="tooltip"]').tooltip();
+
+
+    var images_nyc = ['taxi17.png', 'theater3.png', 'burger9.png', 'hot62.png', 'new70.png', 'car105.png', 'shopping188.png', 'building47.png', 'new76.png', 'new71.png', 'new72.png', 'brindis2.png', 'shopping187.png', 'new73.png', 'business163.png', 'semaphore7.png', 'new74.png', 'bridge3.png', 'new77.png', 'new75.png'];
+    var images_actions = ['cut51.png', 'exercise37.png', 'exercise19.png', 'celebrating.png', 'exercise45.png', 'exercise15.png', 'archery5.png', 'exercise41.png', 'soccer3.png', 'exercise20.png', 'suitcases6.png', 'canes.png', 'exercise16.png', 'exercise24.png', 'flutes.png', 'dumbbell7.png', 'exercise32.png', 'jump11.png', 'exercise42.png', 'women21.png', 'alcohol23.png', 'fork43.png', 'gym31.png', 'mountain8.png', 'exercise12.png', 'exercise33.png', 'exercise26.png', 'exercise28.png', 'couple5.png', 'think7.png', 'girl3.png', 'fisher.png', 'exercise29.png', 'ski23.png', 'exercise21.png', 'musical27.png', 'rain86.png', 'walker.png', 'musical26.png', 'balloon21.png', 'men41.png', 'exercise30.png', 'exercise43.png', 'exercise25.png', 'exercise23.png', 'basketball equipment6.png', 'exercise17.png', 'scooters.png', 'football game3.png', 'talk24.png', 'tennis ball2.png', 'exercise27.png', 'jumping4.png', 'girl4.png', 'boy3.png', 'exercise34.png', 'musical141.png', 'sports ball14.png', 'ring5.png', 'rope5.png', 'men39.png', 'men43.png', 'walk3.png', 'exercise39.png', 'boy2.png', 'exercise31.png', 'jump2.png', 'seat5.png', 'gym35.png', 'golfing3.png', 'greeting1.png', 'standing.png', 'exercise14.png', 'gym32.png', 'men40.png', 'exercise18.png', 'climb1.png', 'men42.png', 'exercise38.png', 'men38.png', 'ping pong8.png', 'exercise35.png', 'baseball6.png', 'basketball equipment5.png', 'tennis ball1.png', 'walk2.png', 'sing3.png', 'exercise40.png', 'exercise13.png', 'soccer player1.png', 'exercise44.png', 'gym34.png', 'exercise36.png', 'recycle8.png', 'chairs6.png', 'exercise22.png', 'gym36.png', 'gym33.png', 'knee.png', 'sport35.png', 'gymnast3.png', 'martial arts3.png', 'salute2.png'];
+    var images = images_actions;
+    var iconsdir = '../static/img/icons-actions/';
+
+    $('.table-card').each(function(){
+        $(this).css({'background-image': 'url(' + iconsdir + images[Math.floor(Math.random() * (images.length - 1))] + ')'});
+    });
+    $('.table-square').each(function(){
+        $(this).css({'background-image': 'url(' + iconsdir + images[Math.floor(Math.random() * (images.length - 1))] + ')'});
+    });
+    $('.player-yellow-card').each(function(){
+        $(this).css({'background-image': 'url(' + iconsdir + images[Math.floor(Math.random() * (images.length - 1))] + ')'});
+    });
 
 
 });

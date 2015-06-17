@@ -5,6 +5,10 @@
     margin:2px;
     padding:2px;
     border-radius: 4px;
+    background:url('../img/sp1.png') no-repeat right bottom;
+    background-size:20px;
+    -moz-text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    -webkit-text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
     text-align:left;
 }
@@ -56,23 +60,24 @@
     padding:2px;
     border-radius: 10px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-    background:#D5D5D5;
-    -webkit-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
-    box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    background:grey url('../img/sp2.png') no-repeat right bottom;
+    background-size:20px;
+    -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
 
 }
 
 .table-square{
-    width:80px;
-    height:80px;
+    width:60px;
+    height:60px;
     text-align:center;
     display:inline-block;
     margin:2px;
     padding:2px;
     border-radius: 10px;
-    border:1px solid grey;
-    background:#4A60B7;
+    background:url('../img/sp2.png') no-repeat right bottom;
+    background-size:20px;
     -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
     box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
@@ -131,19 +136,22 @@
     margin:2px;
     float:left;
     border-radius: 10px;
-    border:1px solid grey;
+    text-align:center;
+    -webkit-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+    -moz-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+    box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
     text-align:center;
 }
 
 .tiny-card{
-    width:20px;
-    height:30px;
+    width:15px;
+    height:22px;
     margin:2px;
     float:left;
     border-radius: 3px;
-    -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
-    box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+    -moz-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+    box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
     text-align:center;
 }
 
@@ -153,7 +161,9 @@
     margin-right:2px;
     display:inline-block;
     border-radius: 5px;
-    border:1px solid grey;
+-webkit-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+-moz-box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
+box-shadow: -2px 3px 3px -1px rgba(0,0,0,0.31);
     float:right;
 }
 
