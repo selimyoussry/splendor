@@ -78,7 +78,7 @@
         <div class="col-md-8">
 
             <div class="table-players">
-                {% for gameplayer in game.get_players() %}
+                {% for gameplayer in game.get_players_starting_by_me(g.user.id) %}
                 <h4>{{ gameplayer.player.name }}, {{ gameplayer.get_points() }} point {% if gameplayer.get_points() > 1 %} {{s}} {% endif %} </h4>
                     <table class="table player-table">
                         <tbody>

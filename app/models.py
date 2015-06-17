@@ -20,6 +20,21 @@ class Game(db.Model):
     def get_players(self):
         return sorted([p for p in self.players], key=lambda p: p.game_order)
 
+    def get_players_starting_by_me(self, my_id):
+        def rotate(l, x):
+            return l[-x:] + l[:-x]
+
+        players = self.get_players()
+        my_id_in_the_list = 0
+        idx = 0
+        for p in players:
+            if p.player.id == my_id:
+                my_id_in_the_list = idx
+            idx += 1
+
+        return rotate(players, my_id_in_the_list)
+
+
     def get_player_names(self):
         return [p.player.name for p in sorted([p for p in self.players], key=lambda p: p.game_order)]
 
