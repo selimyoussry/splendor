@@ -328,7 +328,7 @@ function play_server(game_id, gameplayer_id){
     }else{
         $.post( "/play", play)
             .done(function( data ) {
-            console.log('played');
+            location.reload();
         });
 
     }
@@ -355,6 +355,15 @@ function start_game_post_emails(){
     .done(function() {
       window.location = '/index';
     });;
+}
+
+function hack_reload_without_socket(){
+    var is_not_my_turn_to_play = $('#play-server').prop('disabled');
+    if(is_not_my_turn_to_play){
+        window.setInterval(function(){
+          location.reload();
+        }, 10000);
+    }
 }
 
 $(document).ready(function(){
@@ -408,5 +417,6 @@ $(document).ready(function(){
         $(this).css({'background-image': 'url(' + iconsdir + images[Math.floor(Math.random() * (images.length - 1))] + ')'});
     });
 
+    hack_reload_without_socket();
 
 });
