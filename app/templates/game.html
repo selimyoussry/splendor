@@ -107,7 +107,11 @@
                                     {% for card in gameplayer.get_cards_not_bought() %}
                                 <td>
 
+                                    {% if gameplayer.player.id == g.user.id %}
                                     <div class="player-yellow-card buyable-card" id="table-card-r-{{card.id}}" data-toggle="tooltip" title="Buy the card" onclick="buy_or_reserve_card('r-{{card.id}}', true)">
+                                    {%else%}
+                                    <div class="player-yellow-card">
+                                    {% endif %}
                                         <div class="card-top">
                                             <span class="card-value">{{ card.card.value }}</span>
                                             <span class="card-color tiny-gem card-{{ card.card.color }}"></span>
