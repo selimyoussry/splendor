@@ -1,16 +1,12 @@
-.table-cards, .table-squares-tokens, .table-players{
-    display:inline-block;
-}
-
 .table-card{
     width:80px;
     height:100px;
     display:inline-block;
-    margin:10px;
+    margin:2px;
     padding:2px;
-    border:1px solid black;
-    border-radius: 10px;
+    border-radius: 4px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    text-align:left;
 }
 
 .table-card-ready-to-buy{
@@ -23,7 +19,9 @@
 }
 
 .buyable-card{
-    box-shadow: 2px 2px 2px grey;
+    -webkit-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
 }
 
 .buyable-card:hover{
@@ -43,20 +41,26 @@
     height:30px;
     display:block;
     padding:2px;
-    border:1px solid black;
     border-radius: 10px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    -webkit-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
 }
+
 
 .player-yellow-card{
     width:80px;
     height:100px;
-    display:block;
+    display:inline-block;
     padding:2px;
-    border:1px solid black;
     border-radius: 10px;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
     background:#D5D5D5;
+    -webkit-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 7px 0px rgba(0,0,0,0.75);
+
 }
 
 .table-square{
@@ -64,12 +68,14 @@
     height:80px;
     text-align:center;
     display:inline-block;
-    margin:10px;
+    margin:2px;
     padding:2px;
     border-radius: 10px;
     border:1px solid grey;
     background:#4A60B7;
-    box-shadow: 2px 2px 2px black;
+    -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
 }
 
 .token{
@@ -77,11 +83,13 @@
     height:40px;
     display:inline-block;
     border-radius: 20px;
-    border:1px solid grey;
     position:relative;
+    font-weight:bold;
     line-height: 40px;
     text-align:center;
-    box-shadow: 2px 2px 2px grey;
+    -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
 }
 
 .token:hover{
@@ -98,7 +106,7 @@
     height:20px;
     display:block;
     line-height:20px;
-    top:-15px;
+    bottom:-10px;
     left:0px;
     color:black;
     font-weight:bold;
@@ -133,7 +141,9 @@
     margin:2px;
     float:left;
     border-radius: 3px;
-    border:1px solid grey;
+    -webkit-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 4px 0px rgba(0,0,0,0.75);
     text-align:center;
 }
 
@@ -183,4 +193,48 @@
 
 #game-alert{
     display:none;
+}
+
+
+#reset-tokens-picked{
+  margin-left: 15px;
+}
+
+.td-black{
+    background: black;
+    color: white;
+}
+
+.td-blue{
+    background: blue;
+    color: black;
+}
+
+.td-green{
+    background: green;
+    color: black;
+}
+
+.td-yellow{
+    background: yellow;
+    color: black;
+}
+
+.td-red{
+    background: red;
+    color: black;
+}
+
+.td-white{
+    background: white;
+    color: black;
+}
+
+body{ font-family: 'Josefin Slab', cursive; }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Josefin Slab';
+}
+p, div {
+    font-family: 'Josefin Slab';
 }

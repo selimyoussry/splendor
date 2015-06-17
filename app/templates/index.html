@@ -1,21 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Yo:</h1>
-<a href="/start_game">Start a new game</a>
 
-<h1>Ongoing games:</h1>
+
+<div class="container-fluid">
+
+    Would you like to
+    <a href="/start_game" role="button" class="btn btn-info">
+        Start a new game
+    </a> ? Otherwise you may join one of the games below
+</div>
+
+<div class="container-fluid">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Game</th>
+            <th>Players</th>
+            <th>Join this game?</th>
+        </tr>
+        </thead>
+        <tbody>
+
 {% for game in games %}
-<ul>
-    <li>
-        <a href="/game/{{game.game.id}}">Join Game {{game.game.id}} with
+        {% if game.game.is_this_guy_playing(g.user.id) %}
+<tr>
+    <td>{{game.game.id}}</td>
+    <td>
         {% for name in game.game.get_player_names() %}
-            {{name}}
+        {{name}}
         {% endfor %}
-        </a>
-    </li>
-</ul>
+    </td>
+    <td>
+        <a href="/game/{{game.game.id}}">Join this game</a>
+    </td>
+</tr>
+        {% endif %}
 {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
 
 
 {% endblock %}

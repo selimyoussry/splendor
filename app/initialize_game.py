@@ -18,6 +18,7 @@ class GameSetUp:
             self.game = game
         self.db = db
         self.rules = dict()
+        self.set_rules()
 
     def set_rules(self):
         nplayers = len(self.game.get_players())

@@ -18,10 +18,13 @@ class Game(db.Model):
     deck_cards = db.relationship('GameDeckCard', backref='game', lazy='dynamic')
 
     def get_players(self):
-        return [p for p in self.players]
+        return sorted([p for p in self.players], key=lambda p: p.game_order)
 
     def get_player_names(self):
         return [p.player.name for p in self.players]
+
+    def is_this_guy_playing(self, player_id):
+        return player_id in [p.player.id for p in self.get_players()]
 
     def get_table_cards_by_rank(self, rank):
         return [c for c in self.table_cards if c.card.rank==rank]

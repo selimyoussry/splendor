@@ -214,8 +214,7 @@ function buy_or_reserve_card(table_card_id, already_reserved){
                   label: "No thanks!",
                   className: "btn-danger",
                   callback: function() {
-                    reset_table();
-                    $('#table-card-' + table_card_id).addClass(RESERVE_CLASS);
+                    true;
                   }
                 }
               }
@@ -353,5 +352,17 @@ $(document).ready(function(){
     $('#reset-tokens-picked').click(function(){
         reset_tokens_picked();
     });
+
+    $('#splendooor').click(function(){
+        game_rules_alert('SPLENDOOOOOOOOOOOR', false);
+    });
+
+    $('.start-game-add-player').click(function(){
+        $(this).toggleClass('btn-default');
+        $(this).toggleClass('btn-primary');
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
 
 });

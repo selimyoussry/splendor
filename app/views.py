@@ -108,7 +108,7 @@ def start_game():
         new_game_id = new_game.id
         return redirect('/game/{}'.format(new_game_id))
 
-    return render_template('start_game.html',
+    return render_template(url_for('start_game'),
                            title='Start a new game',
                            form=form,
                            available_players=available_players)
