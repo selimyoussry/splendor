@@ -343,6 +343,19 @@ function get_gameplayer_id(){
     return($('#gameplayer-id').html());
 };
 
+function start_game_post_emails(){
+
+    var emails = [];
+    $('.start-game-add-player .email').each(function(){
+        emails.push($(this).html());
+    });
+
+    console.log(emails);
+    $.post( "/start_game", {data: emails.join(',')})
+    .done(function() {
+      window.location = '/index';
+    });;
+}
 
 $(document).ready(function(){
 
@@ -361,6 +374,20 @@ $(document).ready(function(){
     $('.start-game-add-player').click(function(){
         $(this).toggleClass('btn-default');
         $(this).toggleClass('btn-primary');
+
+        if($('.start-game-add-player.btn-primary').length >= 2){
+            $( "#btn-start-game" ).prop( "disabled", false );
+        }else{
+            $( "#btn-start-game" ).prop( "disabled", true );
+        }
+    });
+
+    $('#btn-start-game').click(function(){
+        console.log('str');
+        if($('.start-game-add-player.btn-primary').length >= 2){
+            start_game_post_emails();
+            console.log('str2');
+        };
     });
 
     $('[data-toggle="tooltip"]').tooltip();

@@ -76,14 +76,13 @@ def logout():
 @app.route('/start_game', methods=['GET', 'POST'])
 @login_required
 def start_game():
-    form = StartGameForm()
 
     available_players = [p for p in models.Player.query.all()]
 
-    if form.validate_on_submit():
-
-        players_email = [form.player1.data, form.player2.data, form.player3.data, form.player4.data, form.player5.data]
-        players_email = [email for email in players_email if len(email) > 0]
+    if 'data' in request.form:
+        print 'str'
+        players_email = request.form['data'].split(',')
+        print players_email
         flash('Start a game requested for players {}'.format(' - '.join(players_email)))
 
         # Instanciate a new game
@@ -106,11 +105,11 @@ def start_game():
             print 'Adding {}'.format(player_game)
 
         new_game_id = new_game.id
-        return redirect('/game/{}'.format(new_game_id))
+        return redirect('/game/{}'.format(new_game_id), code=303)
 
-    return render_template(url_for('start_game'),
+
+    return render_template('start_game.html',
                            title='Start a new game',
-                           form=form,
                            available_players=available_players)
 
 

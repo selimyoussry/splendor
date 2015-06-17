@@ -2,25 +2,18 @@
 {% block content %}
 
 <div class="container-fluid">
-    <h1>Start new game</h1>
+    <h1>Start new game <button disabled id='btn-start-game' type="button" class="btn btn-success start-game-add-player">Start!</button></h1>
 
-    {% for player in available_players %}
-    <button type="button" class="btn btn-default start-game-add-player">
-        {{player.name}} - {{player.email}}
-    </button>
-    {% endfor %}
+    <div class="row">
+        {% for player in available_players %}
+        <button type="button" class="btn btn-default start-game-add-player" >
+            {{player.name}} - <span class="email">{{player.email}}</span>
+        </button>
+        {% endfor %}
+
+    </div>
+
 
 </div>
 
-<h2>Pick emails from above to start a new game</h2>
-<form action="" method="post" name="startgame">
-    {{ form.hidden_tag() }}
-
-    Player 1: {{ form.player1(size=80) }}<br />
-    Player 2: {{ form.player2(size=80) }}<br />
-    Player 3: {{ form.player3(size=80) }}<br />
-    Player 4: {{ form.player4(size=80) }}<br />
-    Player 5: {{ form.player5(size=80) }}<br />
-    <p><input type="submit" value="Start a new game!"></p>
-</form>
 {% endblock %}
