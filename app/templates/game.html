@@ -4,19 +4,11 @@
 <div class="container">
 
     <div class="row well">
-        <div class="col-md-4">
             <p>Game order: {{game.get_player_names() | join(', ') }}</p>
-        </div>
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-            {% if gameplayer.ismyturntoplay %}
 
-            <button type="button" class="btn btn-success btn-md" id="play-server" style="float:right">Play!</button>
+            <button {% if not gameplayer.ismyturntoplay %} disabled {% endif %} type="button" class="btn btn-success btn-md" id="play-server" style="float:right">Play!</button>
             <span id="game-id" class="hidden">{{game.id}}</span>
             <span id="gameplayer-id" class="hidden">{{gameplayer.id}}</span>
-
-            {% endif %}
 
         </div>
 

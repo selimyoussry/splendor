@@ -21,7 +21,7 @@ class Game(db.Model):
         return sorted([p for p in self.players], key=lambda p: p.game_order)
 
     def get_player_names(self):
-        return [p.player.name for p in self.players]
+        return [p.player.name for p in sorted([p for p in self.players], key=lambda p: p.game_order)]
 
     def is_this_guy_playing(self, player_id):
         return player_id in [p.player.id for p in self.get_players()]

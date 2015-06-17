@@ -27,9 +27,7 @@
 <tr>
     <td>{{game.game.id}}</td>
     <td>
-        {% for name in game.game.get_player_names() %}
-        {{name}}
-        {% endfor %}
+        {{ game.game.get_player_names() | join(', ')  }}
     </td>
     <td>
         <a href="/game/{{game.game.id}}">Join this game</a>
