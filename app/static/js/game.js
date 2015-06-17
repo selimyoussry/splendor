@@ -12,6 +12,9 @@ var MAX_N_TOKENS_OWNED = 10;
 //////////////////////////
 //////////////////////////
 
+function my_gid(){
+    return($('#gid').html());
+}
 
 function pick_token(color){
     var i_can_take_the_token = can_take_token(color);
@@ -23,8 +26,9 @@ function pick_token(color){
 
 function n_tokens_owned(){
     var total_tokens_owned = 0;
+
     for (var i = 0; i < COLORS.length; i++) {
-        var element = $('#player-token-' + COLORS[i]);
+        var element = $('#player-token-' + my_gid() + '-' + COLORS[i]);
         var n_of_that_color = element.length ? parseInt(element.html()) : 0;
         total_tokens_owned += n_of_that_color;
     }
@@ -131,8 +135,17 @@ function reset_tokens_picked(){
 
 
 function get_total_items(color){
-    return parseInt($('#player-' + color + '-total').html());
+    return get_total_tokens(color) + get_total_cards(color);
 }
+
+function get_total_tokens(color){
+    return parseInt($('#player-token-' + my_gid() + '-' + color).html());
+}
+
+function get_total_cards(color){
+    return $('.player-card-' + my_gid()).length;
+}
+
 
 function can_he_buy_card(card_info){
     var n_yellow_needed = 0;
@@ -145,6 +158,18 @@ function can_he_buy_card(card_info){
     console.log('n_yellow_needed', n_yellow_needed);
     return n_yellow_needed <= get_total_items('yellow');
 }
+
+function can_he_buy_square(square_info){
+    var ret = true;
+    for(var i=0; i<COLORS_NO_YELLOW.length; i++){
+        var d = card_info[COLORS_NO_YELLOW[i]] - get_total_cards(COLORS_NO_YELLOW[i]);
+        if(d > 0){
+            ret=false;
+        }
+    }
+    return ret;
+}
+
 
 function get_card_info(table_card_id){
     var card_info = {};

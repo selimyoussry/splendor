@@ -86,7 +86,7 @@
                                 {%for color in ['blue', 'red', 'green', 'white', 'black', 'yellow']%}
                                 <td class="text-center col-md-2">
                                     {% if gameplayer.get_tokens().get_info(color) != 0 %}
-                                    <div class="token card-{{ color }}" id="player-token-{{color}}">{{ gameplayer.get_tokens().get_info(color) }}</div>
+                                    <div class="token card-{{ color }}" id="player-token-{{gameplayer.player.id}}-{{color}}">{{ gameplayer.get_tokens().get_info(color) }}</div>
                                     {% endif %}
                                 </td>
                                 {% endfor %}
@@ -95,7 +95,7 @@
                                 {%for color in ['blue', 'red', 'green', 'white', 'black']%}
                                 <td class="col-md-2 text-center">
                                     {% for card in gameplayer.get_cards_by_color(color) %}
-                                    <div class="player-card">
+                                    <div class="player-card player-card-{{gameplayer.player.id}}">
                                         <div class="card-top">
                                             <span class="card-value">{{ card.value }}</span>
                                             <span class="card-color tiny-gem card-{{ card.color }}"></span>

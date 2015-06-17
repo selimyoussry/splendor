@@ -33,6 +33,7 @@
 
                 {% if g.user.is_authenticated() %}
                 <li><a href="{{ url_for('logout') }}">Logout from {{ g.user.email }}</a></li>
+                <span style="display:none" id="gid">{{g.user.id}}</span>
                 {% endif %}
             </ul>
         </div>
